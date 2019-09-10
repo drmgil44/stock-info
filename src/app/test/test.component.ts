@@ -14,22 +14,28 @@ export class TestComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
-      this.apiService.readPolicies().subscribe((policies: Policy[])=>{
-        this.policies = policies;
-        console.log(this.policies);
-      })
+      this.readPolicies();
+  }
+
+  readPolicies(){
+    this.apiService.readPolicies().subscribe((policies: Policy[])=>{
+      this.policies = policies;
+      console.log(this.policies);
+    })
   }
 
   createOrUpdatePolicy(form){
     if(this.selectedPolicy && this.selectedPolicy.id){
       form.value.id = this.selectedPolicy.id;
       this.apiService.updatePolicy(form.value).subscribe((policy: Policy)=>{
+        this.readPolicies();
         console.log("Policy updated" , policy);
       });
     }
     else{
 
       this.apiService.createPolicy(form.value).subscribe((policy: Policy)=>{
+        this.readPolicies();
         console.log("Policy created, ", policy);
       });
     }
@@ -44,6 +50,7 @@ export class TestComponent implements OnInit {
     this.apiService.deletePolicy(id).subscribe((policy: Policy)=>{
       console.log("Policy deleted, ", policy);
     });
+    this.readPolicies();
   }
 
 }

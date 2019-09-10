@@ -1,0 +1,11 @@
+
+  <br>
+  <form #f = "ngForm">
+    <label>ID : </label>
+    <input type="text" name="id" [(ngModel)] = "selectedlogin.id">
+    <br>
+    <label>PASSWORD : </label>
+    <input type="text" name="password" [(ngModel)] = "selectedlogin.password">
+    <br>
+    <input type="button" (click)="letlogin(f)" value="Login">
+  </form>

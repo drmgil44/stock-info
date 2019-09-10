@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Policy } from './policy';
+import { Login } from './api.login';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -25,5 +26,9 @@ export class ApiService {
 
   deletePolicy(id: number){
       return this.httpClient.delete<Policy>(`${this.PHP_API_SERVER}/api/delete.php/?id=${id}`);
+  }
+
+  matchLogin(login: Login): Observable<Login>{
+    return this.httpClient.post<Policy>(`${this.PHP_API_SERVER}/api/login.php`, login);
   }
 }

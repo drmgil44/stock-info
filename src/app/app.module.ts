@@ -10,6 +10,7 @@ import { Error404Component } from './error404/error404.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { TestComponent } from './test/test.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { TestComponent } from './test/test.component';
     AppComponent,
     HomeComponent,
     Error404Component,
-    TestComponent
+    TestComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
