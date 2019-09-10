@@ -29,6 +29,6 @@ export class ApiService {
   }
 
   matchLogin(login: Login): Observable<Login>{
-    return this.httpClient.post<Policy>(`${this.PHP_API_SERVER}/api/login.php`, login);
+      return this.httpClient.post<Login>(`${this.PHP_API_SERVER}/api/login.php`, login);
   }
 }

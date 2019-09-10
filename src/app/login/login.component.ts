@@ -9,19 +9,21 @@ import { Login } from '../api.login';
 })
 export class LoginComponent implements OnInit {
   selectedlogin: Login = {id: null, password: null};
-  loginsucess: Login;
+  loginsuccess: Login;
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {  }
 
   letlogin(form){
-    if(this.selectedlogin && this.selectedlogin.id){
-      form.value.id = this.selectedlogin.id;
+
       this.apiService.matchLogin(this.selectedlogin).subscribe((login: Login)=>{
-        this.loginsucess=login;  // after
-        console.log(this.loginsucess);
+        this.loginsuccess=login;  // get value from server 
+        console.log(this.loginsuccess);
+        if(this.loginsuccess.id == this.loginsuccess.password){ //login success
+          this.selectedlogin.id=null; this.selectedlogin.password=null;
+        }
       });
-    }
+
 
   }
 }
