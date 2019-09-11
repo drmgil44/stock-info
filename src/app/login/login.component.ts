@@ -16,12 +16,10 @@ export class LoginComponent implements OnInit {
 
   letlogin(form){
 
-      this.apiService.matchLogin(this.selectedlogin).subscribe((login: Login)=>{
-        this.loginsuccess=login;  // get value from server 
-        console.log(this.loginsuccess);
-        if(this.loginsuccess.id == this.loginsuccess.password){ //login success
-          this.selectedlogin.id=null; this.selectedlogin.password=null;
-        }
+      this.apiService.matchLogin(this.selectedlogin).subscribe((token: string)=>{
+        console.log(this.apiService.getToken());
+        if(this.apiService.getToken()!="null"){console.log("Login successful");}
+        else {console.log("Try again");}
       });
 
 

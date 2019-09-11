@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { JwtHelperService } from '@auth0/angular-jwt'; //JWT Helper
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 import { Policy } from './policy';
 import { Login } from './api.login';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   PHP_API_SERVER = "http://127.0.0.1:80/angular-php-app/backend";
-  constructor(private httpClient: HttpClient) { }
+  TOKEN_NAME = "jwt_token";
+
+  constructor(private httpClient: HttpClient, private jwtHelperService:JwtHelperService) { }
 
   readPolicies(): Observable<Policy[]>{
       return this.httpClient.get<Policy[]>(`${this.PHP_API_SERVER}/api/read.php`);
@@ -28,7 +33,15 @@ export class ApiService {
       return this.httpClient.delete<Policy>(`${this.PHP_API_SERVER}/api/delete.php/?id=${id}`);
   }
 
-  matchLogin(login: Login): Observable<Login>{
-      return this.httpClient.post<Login>(`${this.PHP_API_SERVER}/api/login.php`, login);
+  matchLogin(login: Login): Observable<string>{
+      return this.httpClient.post<string>(`${this.PHP_API_SERVER}/api/login.php`, login).pipe(tap(res=> this.setToken(res['token'])))
+  }
+
+  setToken(token: string){
+    localStorage.setItem(this.TOKEN_NAME,token);
+  }
+
+  getToken(){
+    return localStorage.getItem(this.TOKEN_NAME);
   }
 }
