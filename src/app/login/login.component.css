@@ -1,0 +1,22 @@
+.wrapper{
+  width: 250px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+.inputs{
+  padding: 10px;
+  border: none;
+  border-bottom: solid 2px #c9c9c9;
+  transition: border 0.2s;
+  border-radius :0px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+.inputs:focus{
+	 border-bottom: solid 2px #969696;
+}
+
+label{
+    text-align: left;
+}

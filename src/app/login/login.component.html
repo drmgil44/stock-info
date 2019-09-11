@@ -1,11 +1,17 @@
 
-  <br>
-  <form #f = "ngForm">
-    <label>ID : </label>
-    <input type="text" name="id" [(ngModel)] = "selectedlogin.id">
-    <br>
-    <label>PASSWORD : </label>
-    <input type="text" name="password" [(ngModel)] = "selectedlogin.password">
-    <br>
-    <input type="button" (click)="letlogin(f)" value="Login">
-  </form>
+<div class="wrapper">
+  <div>
+    <form #f = "ngForm" action="" autocomplete="off" (ngSubmit)="letlogin(f)">
+        <label>ID  </label>
+        <br />
+        <input size="30px" type="text" name="id" class="inputs" [(ngModel)] = "selectedlogin.id">
+        <br />
+        <label>PASSWORD  </label>
+        <br />
+        <input size="30px" type="text" name="password" class="inputs" [(ngModel)] = "selectedlogin.password">
+
+      <br /><br />
+      <input type="submit" class="btn btn-info btn-block btn-lg btnlog" value="Login">
+    </form>
+  </div>
+</div>

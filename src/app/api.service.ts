@@ -1,3 +1,6 @@
+// RESTful API service
+// connecting MySQL
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -5,6 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt'; //JWT Helper
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
+import { JwtService } from './jwt.service';
 import { Policy } from './policy';
 import { Login } from './api.login';
 
@@ -13,9 +17,8 @@ import { Login } from './api.login';
 })
 export class ApiService {
   PHP_API_SERVER = "http://127.0.0.1:80/angular-php-app/backend";
-  TOKEN_NAME = "jwt_token";
 
-  constructor(private httpClient: HttpClient, private jwtHelperService:JwtHelperService) { }
+  constructor(private httpClient: HttpClient, private jwtService: JwtService, private jwtHelperService:JwtHelperService) { }
 
   readPolicies(): Observable<Policy[]>{
       return this.httpClient.get<Policy[]>(`${this.PHP_API_SERVER}/api/read.php`);
@@ -38,10 +41,6 @@ export class ApiService {
   }
 
   setToken(token: string){
-    localStorage.setItem(this.TOKEN_NAME,token);
-  }
-
-  getToken(){
-    return localStorage.getItem(this.TOKEN_NAME);
+    this.jwtService.setToken(token);
   }
 }

@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 
+import { JwtAuth } from './jwt.auth';
 import { HomeComponent } from './home/home.component';
 import { Error404Component } from './error404/error404.component';
 import { TestComponent } from './test/test.component';
@@ -38,7 +39,7 @@ export function tokenGetter(){
       }
     })
   ],
-  providers: [],
+  providers: [JwtAuth],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
