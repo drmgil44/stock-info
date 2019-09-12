@@ -1,0 +1,23 @@
+
+<div class="wrapper">
+  <div>
+    <form #f = "ngForm" action="" autocomplete="off" (ngSubmit)="tryjoin(f)">
+        <label>Name  </label>
+        <br />
+        <input size="40px" type="text" name="name" class="inputs" [(ngModel)] = "newjoin.name">
+        <br />
+        <label>ID  </label>
+        <br />
+        <input size="40px" type="text" name="id" class="inputs" [(ngModel)] = "newjoin.id">
+        <br />
+        <label>PASSWORD  </label>
+        <br />
+        <input size="40px" type="text" name="password" class="inputs" [(ngModel)] = "newjoin.password">
+
+      <br /><br />
+      <input type="submit" class="btn btn-info btn-block btn-lg btnlog" value="Join">
+      <br />
+      <label class="alert">{{msgJoin}}</label>
+    </form>
+  </div>
+</div>

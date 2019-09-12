@@ -8,13 +8,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 
-import { JwtAuth } from './jwt.auth';
-import { HomeComponent } from './home/home.component';
-import { Error404Component } from './error404/error404.component';
 import { TestComponent } from './test/test.component';
+import { JwtAuth } from './jwt.auth';
+import { Error404Component } from './error404/error404.component';
+import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { JoinComponent } from './join/join.component';
 
-export function tokenGetter(){
+export function tokenGetter(){  // JWT toekn getter
   return localStorage.getItem('access_token');
 }
 
@@ -24,7 +25,8 @@ export function tokenGetter(){
     HomeComponent,
     Error404Component,
     TestComponent,
-    LoginComponent
+    LoginComponent,
+    JoinComponent
   ],
   imports: [
     BrowserModule,

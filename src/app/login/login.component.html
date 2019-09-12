@@ -4,14 +4,15 @@
     <form #f = "ngForm" action="" autocomplete="off" (ngSubmit)="letlogin(f)">
         <label>ID  </label>
         <br />
-        <input size="30px" type="text" name="id" class="inputs" [(ngModel)] = "selectedlogin.id">
+        <input size="40px" type="text" name="id" class="inputs" [(ngModel)] = "selectedlogin.id">
         <br />
         <label>PASSWORD  </label>
         <br />
-        <input size="30px" type="text" name="password" class="inputs" [(ngModel)] = "selectedlogin.password">
-
-      <br /><br />
-      <input type="submit" class="btn btn-info btn-block btn-lg btnlog" value="Login">
+        <input size="40px" type="text" name="password" class="inputs" [(ngModel)] = "selectedlogin.password">
+        <br /><br />
+        <input type="submit" class="btn btn-info btn-block btn-lg btnlog" value="Login">
+        <br />
+        <label class="alert">{{msgLogin}}</label>
     </form>
   </div>
 </div>
