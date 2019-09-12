@@ -23,6 +23,7 @@ export class JoinComponent implements OnInit {
   }
 
   tryjoin(form){
+    if(this.newjoin.id.length>4 && this.newjoin.password.length>3 && this.newjoin.name.length>2){
       this.apiService.createAccount(this.newjoin).subscribe((result: string)=>{
         console.log(result);
         if(result['status']=='join'){ // if Join successful
@@ -33,5 +34,10 @@ export class JoinComponent implements OnInit {
           this.msgalert="Sorry, unexprected error occured. Please try it again";
         }
       });
+    }else{
+      if(this.newjoin.id.length<=4) {this.msgalert="ID must be at least five letter";}
+      else if(this.newjoin.password.length<=3) {this.msgalert="Password must be at least four letter";}
+      else this.msgalert="Name must be at least three letter";
+    }
   }
 }
