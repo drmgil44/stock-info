@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
         console.log(this.jwtService.getToken());
         if(this.jwtService.getToken()!='null'){ // if login successful
           this.appComponent.setIslogin(true); // hide login, join menu
-          this.router.navigate([""]);
+          this.router.navigate([""]); // rediect to home
         }
         else {
           this.msgLogin="Invaild ID or password";

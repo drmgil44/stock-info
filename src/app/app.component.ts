@@ -15,13 +15,19 @@ export class AppComponent implements OnInit{
 
   constructor(private jwtService:JwtService){}
 
-  ngOnInit(){
+  ngOnInit(){ // for hiding menu 'Login, Sign up' or 'My Account'
     this.islogin=this.jwtService.isAuthenicated();
     this.reIsLogin = !this.islogin;
   }
 
-  setIslogin(islogin: boolean){
+  setIslogin(islogin: boolean){ // for hiding menu
     this.islogin=islogin;
     this.reIsLogin = !this.islogin;
+  }
+
+  logout():void{
+    this.jwtService.logout();   // logout - remove token
+    this.ngOnInit();            // refresh nav bar
+    this.router.navigate([""]); // redirect to home
   }
 }
