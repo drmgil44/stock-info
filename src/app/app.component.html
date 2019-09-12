@@ -35,8 +35,8 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li [routerLinkActive]="['active']"><a [routerLink]="['/','myinfo']">My Information</a></li>
-                <!--<li [routerLinkActive]="['active']"><a [routerLink]="['']">Something</a></li>-->
+                <li [routerLinkActive]="['active']"><a [routerLink]="['/','myinfo']">Edit My Accout</a></li>
+                <li [routerLinkActive]="['active']"><a [routerLink]="['/','editpw']">Change Password</a></li>
                 <li role="separator" class="divider"></li>
                 <li [routerLinkActive]="['active']"><a (click)="logout()">Logout</a></li>
               </ul>

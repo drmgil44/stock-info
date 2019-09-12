@@ -10,7 +10,7 @@ export class JwtAuth implements CanActivate{
     private jwtService:JwtService
   ){}
 
-  canActivate():boolean{
+  canActivate():boolean{  // true - token is authenicated, false - token is not valid
     if(!this.jwtService.isAuthenicated()){  // if the token is not vaild
       console.log("invalid token");
       this.router.navigate(['login']);      // redirection to login

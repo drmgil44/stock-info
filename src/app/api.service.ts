@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 
 import { JwtService } from './jwt.service';
 import { Policy } from './policy';
-import { Login } from './api.userinfo';
+import { Login, Join } from './api.userinfo';
 
 @Injectable({
   providedIn: 'root'

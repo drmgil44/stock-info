@@ -14,6 +14,7 @@ import { Error404Component } from './error404/error404.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { JoinComponent } from './join/join.component';
+import { MyinfoComponent } from './myinfo/myinfo.component';
 
 export function tokenGetter(){  // JWT toekn getter
   return localStorage.getItem('access_token');
@@ -26,7 +27,8 @@ export function tokenGetter(){  // JWT toekn getter
     Error404Component,
     TestComponent,
     LoginComponent,
-    JoinComponent
+    JoinComponent,
+    MyinfoComponent
   ],
   imports: [
     BrowserModule,

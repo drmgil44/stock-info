@@ -13,7 +13,7 @@ import { AppComponent } from '../app.component';
 })
 export class LoginComponent implements OnInit {
   selectedlogin: Login = {id: null, password: null};
-  msgLogin: String = null;
+  msgalert: String = null;
 
   constructor(
     private apiService: ApiService,
@@ -26,13 +26,12 @@ export class LoginComponent implements OnInit {
 
   letlogin(form){
       this.apiService.matchLogin(this.selectedlogin).subscribe((token: string)=>{
-        console.log(this.jwtService.getToken());
         if(this.jwtService.getToken()!='null'){ // if login successful
           this.appComponent.setIslogin(true); // hide login, join menu
           this.router.navigate([""]); // rediect to home
         }
         else {
-          this.msgLogin="Invaild ID or password";
+          this.msgalert="Invaild ID or password";
           this.appComponent.setIslogin(false); // hide My Account menu
         }
       });

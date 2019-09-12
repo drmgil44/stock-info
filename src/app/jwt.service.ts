@@ -34,13 +34,27 @@ export class JwtService {
     localStorage.removeItem(this.TOKEN_NAME);
   }
 
-  isAuthenicated():boolean{ // check if the token is valid
+  decodeToken(token:string):string{ // decode token
+    return this.jwtHelperService.decodeToken(token);
+  }
+
+  decodeData():string{ // decode data from token
     const token :string= this.getToken();
-    return token!='null'? !this.isTokenExpired(token):false;
+    if(token!='null'){
+      let dtoken:string= this.decodeToken(token); // decode token
+      return dtoken['data'];  // return only data from token
+    }else{
+      return 'null';
+    }
   }
 
   isTokenExpired(token:string):boolean{ // check if the token is expired
     return this.jwtHelperService.isTokenExpired(token);
+  }
+
+  isAuthenicated():boolean{ // check if the token is valid
+    const token :string= this.getToken();
+    return token!='null'? !this.isTokenExpired(token):false;
   }
 
   logout():void{  // logout

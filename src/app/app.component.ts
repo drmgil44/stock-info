@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { JwtService } from './jwt.service';
 
@@ -10,17 +11,17 @@ import { JwtService } from './jwt.service';
 })
 export class AppComponent implements OnInit{
   //title = 'stock-info';
-  islogin:boolean;
-  reIsLogin:boolean;
+  islogin:boolean;  // true - hide 'Login', 'Sign up' menu
+  reIsLogin:boolean;  // true - hide 'My Account' menu
 
-  constructor(private jwtService:JwtService){}
+  constructor(private jwtService:JwtService, private router: Router){}
 
   ngOnInit(){ // for hiding menu 'Login, Sign up' or 'My Account'
-    this.islogin=this.jwtService.isAuthenicated();
+    this.islogin=this.jwtService.isAuthenicated();  // if token is authenicated
     this.reIsLogin = !this.islogin;
   }
 
-  setIslogin(islogin: boolean){ // for hiding menu
+  setIslogin(islogin: boolean){ // for hiding menu, set value
     this.islogin=islogin;
     this.reIsLogin = !this.islogin;
   }

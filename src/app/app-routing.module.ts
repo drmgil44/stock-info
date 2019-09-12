@@ -7,12 +7,14 @@ import { Error404Component } from './error404/error404.component'
 import { HomeComponent } from './home/home.component';
 import { LoginComponent  } from './login/login.component'
 import { JoinComponent } from './join/join.component';
+import { MyinfoComponent } from './myinfo/myinfo.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent, pathMatch:'full'},
   {path:'test', component: TestComponent, pathMatch:'full'},
   {path:'login', component: LoginComponent, pathMatch:'full'},
   {path:'join', component: JoinComponent, pathMatch:'full'},
+  {path:'myinfo', component: MyinfoComponent, pathMatch:'full', canActivate: [JwtAuth]},  // /MyAccount can be redirected via JwtAuth
   {path:'bookmark', component: HomeComponent, pathMatch:'full', canActivate: [JwtAuth]},  // /bookmark can be redirected via JwtAuth
   {path:'**', component: Error404Component},    // Any address except the above addresses
 ];

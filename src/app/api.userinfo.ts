@@ -4,8 +4,15 @@ export class Login{
   password: number;
 }
 
-export class join{
+export class Join{
   id: number;
   password: number;
   name: number;
+}
+
+export class User{
+  id: number;
+  password: number;
+  name: number;
+  email: number;
 }

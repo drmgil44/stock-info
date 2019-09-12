@@ -12,7 +12,7 @@ import { Join } from '../api.userinfo';
 })
 export class JoinComponent implements OnInit {
   newjoin: Join = {id: null, password: null, name:null};
-  msgJoin: String = null;
+  msgalert: String = null;
 
   constructor(
     private apiService: ApiService,
@@ -28,9 +28,9 @@ export class JoinComponent implements OnInit {
         if(result['status']=='join'){ // if Join successful
           this.router.navigate(["login"]);
         }else if(result['status']=='error'){  // if duplicated id exists
-          this.msgJoin="Sorry, the ID is aleady taken. Please use different ID";
+          this.msgalert="Sorry, the ID is aleady taken. Please use different ID";
         }else {      // unexprected error
-          this.msgJoin="Sorry, unexprected error occured. Please try it again";
+          this.msgalert="Sorry, unexprected error occured. Please try it again";
         }
       });
   }
