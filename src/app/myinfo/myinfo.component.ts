@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from '../api.service';
-import { User } from '../api.userinfo';
 import { JwtService } from '../jwt.service';
+import { User } from '../api.userinfo';
 
 @Component({
   selector: 'app-myinfo',
@@ -26,7 +26,18 @@ export class MyinfoComponent implements OnInit {
   }
 
   editAccount(form){
-
+    this.apiService.editAccount(this.editinfo).subscribe((token: string)=>{ // change infomration
+      console.log(token['message']);
+      if(token['message']=='changed'){  // if infomration is changed
+        this.apiService.setToken(token['token']); // change token (name, email)
+        this.msgalert="Change saved";
+      }else if(token['message']=='denied'){  // if password doesn't match
+        this.msgalert="Curret Password is not matched";
+      }else{  // unexprected error from DB
+        this.msgalert="Sorry, unexprected error occured. Please try it again";
+      }
+      this.editinfo.password = null;
+    });
   }
 
 }
