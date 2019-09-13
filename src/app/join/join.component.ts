@@ -30,7 +30,7 @@ export class JoinComponent implements OnInit {
           this.router.navigate(["login"]);
         }else if(result['status']=='error'){  // if duplicated id exists
           this.msgalert="Sorry, the ID is aleady taken. Please use different ID";
-        }else {      // unexprected error
+        }else {      // unexprected error (DB)
           this.msgalert="Sorry, unexprected error occured. Please try it again";
         }
       });

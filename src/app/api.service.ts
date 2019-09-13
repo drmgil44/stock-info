@@ -56,8 +56,8 @@ export class ApiService {
     return this.httpClient.post<string>(`${this.PHP_API_SERVER}/api/editAccount.php`, user);
   }
 
-  deleteAccount(login: Login): Observable<string>{  // My Account - Delete Account
-    return this.httpClient.post<string>(`${this.PHP_API_SERVER}/api/deleteIdOrChangePw.php`, login);
+  deleteAccount(userpw: UserPw): Observable<string>{  // My Account - Delete Account
+    return this.httpClient.post<string>(`${this.PHP_API_SERVER}/api/deleteIdOrChangePw.php`, userpw);
   }
 
   changePassword(userpw: UserPw): Observable<string>{ // My Account - Change Password

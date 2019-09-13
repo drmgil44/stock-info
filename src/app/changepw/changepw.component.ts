@@ -25,13 +25,15 @@ export class ChangepwComponent implements OnInit {
   }
 
   changePassword(form){
-    this.apiService.changePassword(this.pwinfo).subscribe((result: string)=>{
+    this.apiService.changePassword(this.pwinfo).subscribe((result: string)=>{ // change password
       console.log(result);
-      if(result['status']=='changed'){
+      if(result['status']=='changed'){  // if password is changed
         this.msgalert="Change saved";
-      }else if(result['status']=='error'){
+        this.pwinfo.password = '';
+        this.pwinfo.npassword = '';
+      }else if(result['status']=='error'){  // if password doesn't match
         this.msgalert="Curret Password is not matched";
-      }else{
+      }else{  // unexprected error from DB
         this.msgalert="Sorry, unexprected error occured. Please try it again";
       }
     });
