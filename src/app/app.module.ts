@@ -15,6 +15,8 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { JoinComponent } from './join/join.component';
 import { MyinfoComponent } from './myinfo/myinfo.component';
+import { ChangepwComponent } from './changepw/changepw.component';
+import { DeleteidComponent } from './deleteid/deleteid.component';
 
 export function tokenGetter(){  // JWT toekn getter
   return localStorage.getItem('access_token');
@@ -28,7 +30,9 @@ export function tokenGetter(){  // JWT toekn getter
     TestComponent,
     LoginComponent,
     JoinComponent,
-    MyinfoComponent
+    MyinfoComponent,
+    ChangepwComponent,
+    DeleteidComponent
   ],
   imports: [
     BrowserModule,

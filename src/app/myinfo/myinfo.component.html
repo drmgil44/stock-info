@@ -1,14 +1,14 @@
 
 <div class="wrapper">
   <div>
-    <form #f = "ngForm" action="" autocomplete="off" (ngSubmit)="tryjoin(f)">
-        <label>Name  </label>
+    <form #f = "ngForm" action="" autocomplete="off" (ngSubmit)="editAccount(f)">
+        <label>NAME  </label>
         <br />
         <input size="40px" type="text" name="username" class="inputs" [(ngModel)] = "editinfo.name">
         <br />
         <label>ID  </label>
         <br />
-        <input size="40px" type="text" name="id" class="inputs" [(ngModel)] = "editinfo.id">
+        <input size="40px" type="text" name="id" class="inputs" [(ngModel)] = "editinfo.id" disabled>
         <br />
         <label>CURRENT PASSWORD  </label>
         <br />

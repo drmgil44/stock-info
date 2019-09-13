@@ -23,7 +23,10 @@ export class MyinfoComponent implements OnInit {
     this.editinfo.id = currentdata['id'];
     this.editinfo.name = currentdata['name'];
     this.editinfo.email = currentdata['email'];
-    console.log(this.editinfo.id);
+  }
+
+  editAccount(form){
+
   }
 
 }

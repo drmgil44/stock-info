@@ -1,0 +1,18 @@
+
+<div class="wrapper">
+  <div>
+    <form #f = "ngForm" action="" autocomplete="off" (ngSubmit)="deleteAccount(f)">
+        <label>ID  </label>
+        <br />
+        <input size="40px" type="text" name="id" class="inputs" [(ngModel)] = "deleteinfo.id" disabled>
+        <br />
+        <label>PASSWORD  </label>
+        <br />
+        <input size="40px" type="text" name="password" class="inputs" [(ngModel)] = "deleteinfo.password">
+        <br /><br />
+        <input type="submit" class="btn btn-danger btn-block btn-lg btnlog" value="Delete Account">
+        <br />
+        <label class="alert">{{msgalert}}</label>
+    </form>
+  </div>
+</div>

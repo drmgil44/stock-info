@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 
 import { JwtService } from './jwt.service';
 import { Policy } from './policy';
-import { Login, Join } from './api.userinfo';
+import { Login, Join, User, UserPw } from './api.userinfo';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,10 @@ export class ApiService {
     private jwtService: JwtService,
     private jwtHelperService:JwtHelperService
   ) { }
+
+  setToken(token: string){  // set Jwt token
+    this.jwtService.setToken(token);
+  }
 
   readPolicies(): Observable<Policy[]>{ // test
       return this.httpClient.get<Policy[]>(`${this.PHP_API_SERVER}/api/read.php`);
@@ -40,7 +44,7 @@ export class ApiService {
       return this.httpClient.delete<Policy>(`${this.PHP_API_SERVER}/api/delete.php/?id=${id}`);
   }
 
-  matchLogin(login: Login): Observable<string>{ // Login -  check if the id and password is valid to login
+  tryLogin(login: Login): Observable<string>{ // Login -  check if the id and password is valid to login
       return this.httpClient.post<string>(`${this.PHP_API_SERVER}/api/login.php`, login).pipe(tap(res=> this.setToken(res['token'])))
   }
 
@@ -48,7 +52,15 @@ export class ApiService {
       return this.httpClient.post<string>(`${this.PHP_API_SERVER}/api/join.php`, join);
   }
 
-  setToken(token: string){  // set Jwt token
-    this.jwtService.setToken(token);
+  editAccount(user: User): Observable<string>{  // My Account - Edit My account
+    return this.httpClient.post<string>(`${this.PHP_API_SERVER}/api/editAccount.php`, user);
+  }
+
+  deleteAccount(login: Login): Observable<string>{  // My Account - Delete Account
+    return this.httpClient.post<string>(`${this.PHP_API_SERVER}/api/deleteIdOrChangePw.php`, login);
+  }
+
+  changePassword(userpw: UserPw): Observable<string>{ // My Account - Change Password
+    return this.httpClient.post<string>(`${this.PHP_API_SERVER}/api/deleteIdOrChangePw.php`, userpw);
   }
 }

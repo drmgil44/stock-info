@@ -16,3 +16,9 @@ export class User{
   name: number;
   email: number;
 }
+
+export class UserPw{
+  id: number;
+  password: number;
+  npassword: number;
+}

@@ -1,0 +1,23 @@
+
+<div class="wrapper">
+  <div>
+    <form #f = "ngForm" action="" autocomplete="off" (ngSubmit)="changePassword(f)">
+        <label>NAME  </label>
+        <br />
+        <input size="40px" type="text" name="name" class="inputs" [(ngModel)] = "pwinfo.id" disabled>
+        <br />
+        <label>CURRENT PASSWORD  </label>
+        <br />
+        <input size="40px" type="text" name="id" class="inputs" [(ngModel)] = "pwinfo.password">
+        <br />
+        <label>NEW PASSWORD  </label>
+        <br />
+        <input size="40px" type="text" name="password" class="inputs" [(ngModel)] = "pwinfo.npassword">
+
+      <br /><br />
+      <input type="submit" class="btn btn-info btn-block btn-lg btnlog" value="Join">
+      <br />
+      <label class="alert">{{msgalert}}</label>
+    </form>
+  </div>
+</div>

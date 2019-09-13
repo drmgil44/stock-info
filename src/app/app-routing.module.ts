@@ -8,6 +8,8 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent  } from './login/login.component'
 import { JoinComponent } from './join/join.component';
 import { MyinfoComponent } from './myinfo/myinfo.component';
+import { ChangepwComponent } from './changepw/changepw.component';
+import { DeleteidComponent } from './deleteid/deleteid.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent, pathMatch:'full'},
@@ -15,6 +17,8 @@ const routes: Routes = [
   {path:'login', component: LoginComponent, pathMatch:'full'},
   {path:'join', component: JoinComponent, pathMatch:'full'},
   {path:'myinfo', component: MyinfoComponent, pathMatch:'full', canActivate: [JwtAuth]},  // /MyAccount can be redirected via JwtAuth
+  {path:'changepw', component: ChangepwComponent, pathMatch:'full', canActivate: [JwtAuth]},  // /MyAccount can be redirected via JwtAuth
+  {path:'deleteid', component: DeleteidComponent, pathMatch:'full', canActivate: [JwtAuth]},  // /MyAccount can be redirected via JwtAuth
   {path:'bookmark', component: HomeComponent, pathMatch:'full', canActivate: [JwtAuth]},  // /bookmark can be redirected via JwtAuth
   {path:'**', component: Error404Component},    // Any address except the above addresses
 ];

@@ -22,7 +22,7 @@ export class JoinComponent implements OnInit {
   ngOnInit() {
   }
 
-  tryjoin(form){
+  createAccount(form){
     if(this.newjoin.id.length>4 && this.newjoin.password.length>3 && this.newjoin.name.length>2){
       this.apiService.createAccount(this.newjoin).subscribe((result: string)=>{
         console.log(result);
