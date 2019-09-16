@@ -14,7 +14,10 @@ export class AppComponent implements OnInit{
   islogin:boolean;  // true - hide 'Login', 'Sign up' menu
   reIsLogin:boolean;  // true - hide 'My Account' menu
 
-  constructor(private jwtService:JwtService, private router: Router){}
+  constructor(
+    private jwtService:JwtService,
+    private router: Router
+  ){}
 
   ngOnInit(){ // for hiding menu 'Login, Sign up' or 'My Account'
     this.islogin=this.jwtService.isAuthenicated();  // if token is authenicated

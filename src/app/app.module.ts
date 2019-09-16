@@ -17,6 +17,7 @@ import { JoinComponent } from './join/join.component';
 import { MyinfoComponent } from './myinfo/myinfo.component';
 import { ChangepwComponent } from './changepw/changepw.component';
 import { DeleteidComponent } from './deleteid/deleteid.component';
+import { CompanylistComponent } from './companylist/companylist.component';
 
 export function tokenGetter(){  // JWT toekn getter
   return localStorage.getItem('access_token');
@@ -32,7 +33,8 @@ export function tokenGetter(){  // JWT toekn getter
     JoinComponent,
     MyinfoComponent,
     ChangepwComponent,
-    DeleteidComponent
+    DeleteidComponent,
+    CompanylistComponent
   ],
   imports: [
     BrowserModule,

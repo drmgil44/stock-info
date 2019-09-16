@@ -10,9 +10,10 @@ import { JoinComponent } from './join/join.component';
 import { MyinfoComponent } from './myinfo/myinfo.component';
 import { ChangepwComponent } from './changepw/changepw.component';
 import { DeleteidComponent } from './deleteid/deleteid.component';
+import { CompanylistComponent } from './companylist/companylist.component';
 
 const routes: Routes = [
-  {path:'', component: HomeComponent, pathMatch:'full'},
+  {path:'', component: CompanylistComponent, pathMatch:'full'},
   {path:'test', component: TestComponent, pathMatch:'full'},
   {path:'login', component: LoginComponent, pathMatch:'full'},
   {path:'join', component: JoinComponent, pathMatch:'full'},

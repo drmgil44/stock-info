@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { JwtService } from './jwt.service';
 import { Policy } from './policy';
 import { Login, Join, User, UserPw } from './api.userinfo';
+import { Company } from './api.companyinfo';
 
 @Injectable({
   providedIn: 'root'
@@ -29,19 +30,19 @@ export class ApiService {
   }
 
   readPolicies(): Observable<Policy[]>{ // test
-      return this.httpClient.get<Policy[]>(`${this.PHP_API_SERVER}/api/read.php`);
+      return this.httpClient.get<Policy[]>(`${this.PHP_API_SERVER}/api/test/read.php`);
   }
 
   createPolicy(policy: Policy): Observable<Policy>{ // test
-      return this.httpClient.post<Policy>(`${this.PHP_API_SERVER}/api/create.php`, policy);
+      return this.httpClient.post<Policy>(`${this.PHP_API_SERVER}/api/test/create.php`, policy);
   }
 
   updatePolicy(policy: Policy){ // test
-      return this.httpClient.put<Policy>(`${this.PHP_API_SERVER}/api/update.php`, policy);
+      return this.httpClient.put<Policy>(`${this.PHP_API_SERVER}/api//test/update.php`, policy);
   }
 
   deletePolicy(id: number){ // test
-      return this.httpClient.delete<Policy>(`${this.PHP_API_SERVER}/api/delete.php/?id=${id}`);
+      return this.httpClient.delete<Policy>(`${this.PHP_API_SERVER}/api/test/delete.php/?id=${id}`);
   }
 
   tryLogin(login: Login): Observable<string>{ // Login -  check if the id and password is valid to login
@@ -62,5 +63,9 @@ export class ApiService {
 
   changePassword(userpw: UserPw): Observable<string>{ // My Account - Change Password
     return this.httpClient.post<string>(`${this.PHP_API_SERVER}/api/deleteIdOrChangePw.php`, userpw);
+  }
+
+  getCompanyList(pnumber: number): Observable<Company[]>{ // get Company list
+      return this.httpClient.get<Company[]>(`${this.PHP_API_SERVER}/api/companyList.php/?pnumber=${pnumber}`);
   }
 }

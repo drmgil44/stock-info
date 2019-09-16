@@ -1,0 +1,10 @@
+.wrapper{
+  width: 330px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+label{
+  text-align: left;
+  font-size: 18px;
+}

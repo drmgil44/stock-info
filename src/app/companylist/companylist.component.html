@@ -1,0 +1,30 @@
+<h1>Company List</h1>
+<div>
+  <table border='1' width='100%' style='border-collapse: collapse;'>
+    <tr >
+      <th>Ticker</th>
+      <th>Compnay Name</th>
+
+    </tr>
+    <tr *ngFor="let company of companies">
+      <td>{{ company.ticker }}</td>
+      <td ><a (click)="getCompanyInfo(company.ticker)">{{ company.name }}</a></td>
+      <td>
+        <button (click)="setBookmark(company.ticker)"  *ngIf="islogin">Bookmark</button>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" (click)="getCompanyList(minnumber)">First</a></li>
+    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[2]-5)">Previous</a></li>
+    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[0])">{{pnumber[0]}}</a></li>
+    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[1])">{{pnumber[1]}}</a></li>
+    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[2])">{{pnumber[2]}}</a></li>
+    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[3])">{{pnumber[3]}}</a></li>
+    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[4])">{{pnumber[4]}}</a></li>
+    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[2]+5)">Next</a></li>
+    <li class="page-item"><a class="page-link" (click)="getCompanyList(maxnumber)">Last</a></li>
+  </ul>
+</nav>
