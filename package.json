@@ -20,7 +20,10 @@
     "@angular/platform-browser-dynamic": "~8.2.4",
     "@angular/router": "~8.2.4",
     "@auth0/angular-jwt": "^3.0.0",
+    "cheerio": "^1.0.0-rc.3",
     "jquery": "^3.4.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

@@ -1,24 +1,24 @@
 // class for login RESTful api
 export class Login{
-  id: number;
-  password: number;
+  id: string;
+  password: string;
 }
 
 export class Join{
-  id: number;
-  password: number;
-  name: number;
+  id: string;
+  password: string;
+  name: string;
 }
 
 export class User{
-  id: number;
-  password: number;
-  name: number;
-  email: number;
+  id: string;
+  password: string;
+  name: string;
+  email: string;
 }
 
 export class UserPw{
-  id: number;
-  password: number;
-  npassword: number;
+  id: string;
+  password: string;
+  npassword: string;
 }

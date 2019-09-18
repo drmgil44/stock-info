@@ -1,0 +1,35 @@
+<h1>{{selectedticker}} - {{selectedcompany}}</h1>
+<div>
+  <table border='1' width='100%' style='border-collapse: collapse;'>
+    <tr >
+      <th>Name</th>
+      <th>Value</th>
+
+    </tr>
+    <tr *ngFor="let stock of stocksO">
+      <td>{{ stock.name }}</td>
+      <td >{{ stock.value }}</td>
+    </tr>
+    <tr *ngFor="let stock of stocksP">
+      <td>{{ stock.name }}</td>
+      <td >{{ stock.value }}</td>
+    </tr>
+  </table>
+  <table border='1' width='100%' style='border-collapse: collapse;'>
+    <tr >
+      <th>Name</th>
+      <th>2014</th>
+      <th>2015</th>
+      <th>2016</th>
+      <th>2017</th>
+      <th>2018</th>
+    </tr>
+    <tr *ngFor="let stock of stocksF">
+      <td>{{ stock.name }}</td>
+      <td >{{ stock.value5 }}</td>
+      <td >{{ stock.value4 }}</td>
+      <td >{{ stock.value3 }}</td>
+      <td >{{ stock.value2 }}</td>
+      <td >{{ stock.value1 }}</td>
+    </tr>
+  </table>

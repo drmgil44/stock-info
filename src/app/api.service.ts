@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { JwtService } from './jwt.service';
 import { Policy } from './policy';
 import { Login, Join, User, UserPw } from './api.userinfo';
-import { Company } from './api.companyinfo';
+import { Company, Stock, StockHistory } from './api.companyinfo';
 
 @Injectable({
   providedIn: 'root'
@@ -65,7 +65,19 @@ export class ApiService {
     return this.httpClient.post<string>(`${this.PHP_API_SERVER}/api/deleteIdOrChangePw.php`, userpw);
   }
 
-  getCompanyList(pnumber: number): Observable<Company[]>{ // get Company list
+  getCompanyList(pnumber: number): Observable<Company[]>{ // get Company list response upon page number
       return this.httpClient.get<Company[]>(`${this.PHP_API_SERVER}/api/companyList.php/?pnumber=${pnumber}`);
+  }
+
+  getStockOverview(ticker: string): Observable<Stock[]>{ //get stock overview values
+      return this.httpClient.get<Stock[]>(`${this.PHP_API_SERVER}/webscraper/webscraper_overview.php/?ticker=${ticker}`);
+  }
+
+  getStockProfile(ticker: string): Observable<Stock[]>{ //get stock profile values
+      return this.httpClient.get<Stock[]>(`${this.PHP_API_SERVER}/webscraper/webscraper_profile.php/?ticker=${ticker}`);
+  }
+
+  getStockFinancials(ticker: string): Observable<StockHistory[]>{ //get stock financial values
+      return this.httpClient.get<StockHistory[]>(`${this.PHP_API_SERVER}/webscraper/webscraper_financials.php/?ticker=${ticker}`);
   }
 }

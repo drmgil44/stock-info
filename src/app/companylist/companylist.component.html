@@ -8,7 +8,7 @@
     </tr>
     <tr *ngFor="let company of companies">
       <td>{{ company.ticker }}</td>
-      <td ><a (click)="getCompanyInfo(company.ticker)">{{ company.name }}</a></td>
+      <td ><a (click)="getCompanyInfo(company.ticker, company.name)">{{ company.name }}</a></td>
       <td>
         <button (click)="setBookmark(company.ticker)"  *ngIf="islogin">Bookmark</button>
       </td>
