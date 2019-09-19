@@ -1,0 +1,32 @@
+<br />
+<div class="table-responsive-sm">
+  <table class="table table-sm table-borderless table-hover">
+    <thead >
+      <tr class="table-info">
+        <th scope="col">Ticker</th>
+        <th scope="col">Compnay Name</th>
+        <th *ngIf="islogin"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let company of companies">
+        <th scope="row">{{ company.ticker }}</th>
+        <td><a (click)="getCompanyInfo(company.ticker, company.name)">{{ company.name }}</a></td>
+        <td>
+          <button class="btn btn-info" (click)="setBookmark(company.ticker)"  *ngIf="islogin">Bookmark</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[2]-5)"><</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[0])">{{pnumber[0]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[1])">{{pnumber[1]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[2])">{{pnumber[2]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[3])">{{pnumber[3]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[4])">{{pnumber[4]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[2]+5)">></a></li>
+    </ul>
+</nav>

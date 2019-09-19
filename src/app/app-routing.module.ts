@@ -12,11 +12,13 @@ import { ChangepwComponent } from './changepw/changepw.component';
 import { DeleteidComponent } from './deleteid/deleteid.component';
 import { CompanylistComponent } from './companylist/companylist.component';
 import { CompanyinfoComponent } from './companyinfo/companyinfo.component';
+import { CompanysearchComponent } from './companysearch/companysearch.component';
 
 const routes: Routes = [
+  {path:'test', component: TestComponent, pathMatch:'full'},
   {path:'', component: CompanylistComponent, pathMatch:'full'},
   {path:'cinfo', component: CompanyinfoComponent, pathMatch:'full'},
-  {path:'test', component: TestComponent, pathMatch:'full'},
+  {path:'search', component: CompanysearchComponent, pathMatch:'full', runGuardsAndResolvers: 'always'},
   {path:'login', component: LoginComponent, pathMatch:'full'},
   {path:'join', component: JoinComponent, pathMatch:'full'},
   {path:'myinfo', component: MyinfoComponent, pathMatch:'full', canActivate: [JwtAuth]},  // /MyAccount can be redirected via JwtAuth
@@ -27,7 +29,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+      onSameUrlNavigation: 'reload'
+    })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

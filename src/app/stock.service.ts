@@ -14,6 +14,7 @@ export class StockService {
 
   private ticker=null;
   private company=null;
+  private searchStr=null
 
   constructor(
     private apiService: ApiService,
@@ -21,8 +22,9 @@ export class StockService {
 
   setTicker(selectedticker){  this.ticker = selectedticker;  }
   setCompany(selectedcompany){  this.company = selectedcompany;  }
-
+  setSearch(searchStr){  this.searchStr = searchStr;  }
   getTicker(){  return this.ticker;  }
   getCompany(){  return this.company;  }
+  getSearch(){  return this.searchStr;  }
 
 }

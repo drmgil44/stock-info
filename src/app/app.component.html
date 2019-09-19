@@ -12,9 +12,9 @@
         </li>
       </ul>
 
-      <form class="form-inline my-2 my-lg-0">
+      <form class="form-inline my-2 my-lg-0" #f = "ngForm" action="" autocomplete="off"(ngSubmit)="search(f)">
         <div class="form-group">
-          <input type="search" class="form-control mr-sm-2"  placeholder="Search" aria-label="Search">
+          <input type="search" class="form-control mr-sm-2"  placeholder="Search"  name="searchKeyword" aria-label="Search" [(ngModel)] = "searchStr">
         </div>
         <button type="submit" class="btn btn-info my-2 my-sm-0">Submit</button>
       </form>

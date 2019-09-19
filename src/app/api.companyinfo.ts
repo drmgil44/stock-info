@@ -17,3 +17,10 @@ export class StockHistory{
   value4: String; // 4 years ago
   value5: String; // 5 years ago
 }
+
+
+export class CompanySearch{
+  ticker: string;
+  name: string;
+  type: string;
+}

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { JwtService } from './jwt.service';
+import { StockService } from './stock.service';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,11 @@ export class AppComponent implements OnInit{
   //title = 'stock-info';
   islogin:boolean;  // true - hide 'Login', 'Sign up' menu
   reIsLogin:boolean;  // true - hide 'My Account' menu
+  searchStr:string=null;
 
   constructor(
     private jwtService:JwtService,
+    private stockService:StockService,
     private router: Router
   ){}
 
@@ -34,4 +37,10 @@ export class AppComponent implements OnInit{
     this.ngOnInit();            // refresh nav bar
     this.router.navigate([""]); // redirect to home
   }
+
+  search(form){ // save seleteced ticker to show company information
+    this.stockService.setSearch(this.searchStr);
+    this.router.navigate(["search"]); // rediect to company info
+  }
+
 }

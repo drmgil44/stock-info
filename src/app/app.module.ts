@@ -19,6 +19,7 @@ import { ChangepwComponent } from './changepw/changepw.component';
 import { DeleteidComponent } from './deleteid/deleteid.component';
 import { CompanylistComponent } from './companylist/companylist.component';
 import { CompanyinfoComponent } from './companyinfo/companyinfo.component';
+import { CompanysearchComponent } from './companysearch/companysearch.component';
 
 export function tokenGetter(){  // JWT toekn getter
   return localStorage.getItem('access_token');
@@ -36,7 +37,8 @@ export function tokenGetter(){  // JWT toekn getter
     ChangepwComponent,
     DeleteidComponent,
     CompanylistComponent,
-    CompanyinfoComponent
+    CompanyinfoComponent,
+    CompanysearchComponent
   ],
   imports: [
     BrowserModule,

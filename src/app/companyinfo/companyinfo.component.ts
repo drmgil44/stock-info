@@ -54,7 +54,7 @@ export class CompanyinfoComponent implements OnInit {
   getStockFinancials(){
       this.apiService.getStockFinancials(this.selectedticker).subscribe((stocks: StockHistory[])=>{
         console.log(stocks);
-        for(let i = 0;i<(<int>stocks['length']);i++){   // to replace '%amp;' to '&'
+        for(let i = 0;i<(stocks['length']);i++){   // to replace '%amp;' to '&'
           stocks[i]['name']=stocks[i]['name'].toString().replace("&amp;","&");
         }
         this.stocksF = stocks;

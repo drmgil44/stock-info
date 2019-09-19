@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { JwtService } from './jwt.service';
 import { Policy } from './policy';
 import { Login, Join, User, UserPw } from './api.userinfo';
-import { Company, Stock, StockHistory } from './api.companyinfo';
+import { Company, Stock, StockHistory, CompanySearch } from './api.companyinfo';
 
 @Injectable({
   providedIn: 'root'
@@ -79,5 +79,9 @@ export class ApiService {
 
   getStockFinancials(ticker: string): Observable<StockHistory[]>{ //get stock financial values
       return this.httpClient.get<StockHistory[]>(`${this.PHP_API_SERVER}/webscraper/webscraper_financials.php/?ticker=${ticker}`);
+  }
+
+  getSearchResult(pnumber: number, search:string): Observable<CompanySearch[]>{ // get Company list response upon page number
+      return this.httpClient.get<CompanySearch[]>(`${this.PHP_API_SERVER}/api/searchcompany.php/?pnumber=${pnumber}&search=${search}`);
   }
 }
