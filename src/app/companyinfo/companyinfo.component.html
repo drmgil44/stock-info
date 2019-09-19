@@ -1,35 +1,44 @@
+<br />
 <h1>{{selectedticker}} - {{selectedcompany}}</h1>
 <div>
-  <table border='1' width='100%' style='border-collapse: collapse;'>
-    <tr >
-      <th>Name</th>
-      <th>Value</th>
-
-    </tr>
-    <tr *ngFor="let stock of stocksO">
-      <td>{{ stock.name }}</td>
-      <td >{{ stock.value }}</td>
-    </tr>
-    <tr *ngFor="let stock of stocksP">
-      <td>{{ stock.name }}</td>
-      <td >{{ stock.value }}</td>
-    </tr>
+  <table class="table table-sm table-stripede table-hover">
+    <thead>
+      <tr class="table-info">
+        <th style="width: 30%" scope="col">Name</th>
+        <th style="width: 30%" scope="col">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let stock of stocksO">
+        <th scope="row">{{ stock.name }}</th>
+        <td >{{ stock.value }}</td>
+      </tr>
+      <tr *ngFor="let stock of stocksP">
+        <th scope="row">{{ stock.name }}</th>
+        <td>{{ stock.value }}</td>
+      </tr>
+    </tbody>
   </table>
-  <table border='1' width='100%' style='border-collapse: collapse;'>
-    <tr >
-      <th>Name</th>
-      <th>2014</th>
-      <th>2015</th>
-      <th>2016</th>
-      <th>2017</th>
-      <th>2018</th>
-    </tr>
-    <tr *ngFor="let stock of stocksF">
-      <td>{{ stock.name }}</td>
-      <td >{{ stock.value5 }}</td>
-      <td >{{ stock.value4 }}</td>
-      <td >{{ stock.value3 }}</td>
-      <td >{{ stock.value2 }}</td>
-      <td >{{ stock.value1 }}</td>
-    </tr>
+  <br />
+  <table class="table table-sm table-stripede table-hover">
+    <thead>
+      <tr class="table-info">
+        <th scope="col">Name</th>
+        <th scope="col">2014</th>
+        <th scope="col">2015</th>
+        <th scope="col">2016</th>
+        <th scope="col">2017</th>
+        <th scope="col">2018</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let stock of stocksF">
+        <th scope="row">{{ stock.name }}</th>
+        <td>{{ stock.value5 }}</td>
+        <td>{{ stock.value4 }}</td>
+        <td>{{ stock.value3 }}</td>
+        <td>{{ stock.value2 }}</td>
+        <th scope="row">{{ stock.value1 }}</th>
+      </tr>
+    </tbody>
   </table>

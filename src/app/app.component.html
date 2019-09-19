@@ -1,54 +1,48 @@
 <div class="container-fluid">
-  <div class="row">
-    <nav class="navbar navbar-default navbar-custom">
-      <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a [routerLink]="['/']" class="navbar-brand">Stock Info</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a [routerLink]="['/']" class="navbar-brand">Stock Info</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav navbar-left">
+        <li class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link" [routerLink]="['/','bookmark']">Bookmark</a>
+        </li>
+      </ul>
+
+      <form class="form-inline my-2 my-lg-0">
+        <div class="form-group">
+          <input type="search" class="form-control mr-sm-2"  placeholder="Search" aria-label="Search">
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li [routerLinkActive]="['active']">
-              <a [routerLink]="['/','bookmark']">Bookmark</a>
-            </li>
-          </ul>
-          <form class="navbar-form navbar-left">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
-          <ul class="nav navbar-nav navbar-right" *ngIf="reIsLogin">
-            <li [routerLinkActive]="['active']">
-              <a [routerLink]="['/','login']">Login</a>
-            </li>
-            <li [routerLinkActive]="['active']">
-              <a [routerLink]="['/','join']">Sign Up</a>
-            </li>
-          </ul>
-          <ul  class="nav navbar-nav navbar-right" *ngIf="islogin">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li [routerLinkActive]="['active']"><a [routerLink]="['/','myinfo']">Edit My Accout</a></li>
-                <li [routerLinkActive]="['active']"><a [routerLink]="['/','changepw']">Change Password</a></li>
-                <li role="separator" class="divider"></li>
-                <li [routerLinkActive]="['active']"><a [routerLink]="['/','deleteid']">Delete My Account</a></li>
-                <li role="separator" class="divider"></li>
-                <li [routerLinkActive]="['active']"><a (click)="logout()">Logout</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-      <router-outlet></router-outlet>
+        <button type="submit" class="btn btn-info my-2 my-sm-0">Submit</button>
+      </form>
+
+      <ul class="nav navbar-nav ml-auto" *ngIf="reIsLogin">
+        <li class="nav-item"  [routerLinkActive]="['active']">
+          <a class="nav-link" [routerLink]="['/','login']">Login</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link" [routerLink]="['/','join']">Sign Up</a>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav ml-auto"  *ngIf="islogin">
+        <li class="nav-item dropdown">
+           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> My Account    </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                   <a class="dropdown-item" [routerLink]="['/','myinfo']">Edit My Accout</a>
+                   <a class="dropdown-item" [routerLink]="['/','changepw']">Change Password</a>
+                   <div class="dropdown-divider"></div>
+                   <a class="dropdown-item" [routerLink]="['/','deleteid']">Delete My Account</a>
+                   <div class="dropdown-divider"></div>
+                  <a class="dropdown-item"  (click)="logout()">Logout</a>
+              </div>
+         </li>
+      </ul>
     </div>
+</nav>
+  <div>
+    <router-outlet></router-outlet>
   </div>
-</div>

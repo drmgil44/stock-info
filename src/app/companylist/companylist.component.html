@@ -1,30 +1,34 @@
-<h1>Company List</h1>
-<div>
-  <table border='1' width='100%' style='border-collapse: collapse;'>
-    <tr >
-      <th>Ticker</th>
-      <th>Compnay Name</th>
-
-    </tr>
-    <tr *ngFor="let company of companies">
-      <td>{{ company.ticker }}</td>
-      <td ><a (click)="getCompanyInfo(company.ticker, company.name)">{{ company.name }}</a></td>
-      <td>
-        <button (click)="setBookmark(company.ticker)"  *ngIf="islogin">Bookmark</button>
-      </td>
-    </tr>
+<br />
+<div class="table-responsive-sm">
+  <table class="table table-sm table-borderless table-hover">
+    <thead >
+      <tr class="table-info">
+        <th scope="col">Ticker</th>
+        <th scope="col">Compnay Name</th>
+        <th *ngIf="islogin"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let company of companies">
+        <th scope="row">{{ company.ticker }}</th>
+        <td><a (click)="getCompanyInfo(company.ticker, company.name)">{{ company.name }}</a></td>
+        <td>
+          <button class="btn btn-info" (click)="setBookmark(company.ticker)"  *ngIf="islogin">Bookmark</button>
+        </td>
+      </tr>
+    </tbody>
   </table>
-  <br>
+</div>
   <nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <li class="page-item"><a class="page-link" (click)="getCompanyList(minnumber)">First</a></li>
-    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[2]-5)">Previous</a></li>
-    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[0])">{{pnumber[0]}}</a></li>
-    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[1])">{{pnumber[1]}}</a></li>
-    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[2])">{{pnumber[2]}}</a></li>
-    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[3])">{{pnumber[3]}}</a></li>
-    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[4])">{{pnumber[4]}}</a></li>
-    <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[2]+5)">Next</a></li>
-    <li class="page-item"><a class="page-link" (click)="getCompanyList(maxnumber)">Last</a></li>
-  </ul>
+    <ul class="pagination justify-content-center">
+      <li class="page-item"><a class="page-link" (click)="getCompanyList(minnumber)"><<</a></li>
+      <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[2]-5)"><</a></li>
+      <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[0])">{{pnumber[0]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[1])">{{pnumber[1]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[2])">{{pnumber[2]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[3])">{{pnumber[3]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[4])">{{pnumber[4]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getCompanyList(pnumber[2]+5)">></a></li>
+      <li class="page-item"><a class="page-link" (click)="getCompanyList(maxnumber)">>></a></li>
+    </ul>
 </nav>

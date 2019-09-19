@@ -19,9 +19,10 @@ export class CompanyinfoComponent implements OnInit {
   stocksO:Stock[]; // stock overview values
   stocksP:Stock[]; // stock profile values
   stocksF:StockHistory[]; // stock financials values
+  stocksFstr: string[];
 
   constructor(
-      private apiService: ApiService,
+    private apiService: ApiService,
     private router: Router,
     private stockService:StockService,
   ) { }
@@ -34,27 +35,28 @@ export class CompanyinfoComponent implements OnInit {
       this.getStockProfile();
       this.getStockFinancials();
     }
-    //else this.router.navigate([""]); // rediect to company list
+    else this.router.navigate([""]); // rediect to company list
 
   }
 
   getStockOverview(){
       this.apiService.getStockOverview(this.selectedticker).subscribe((stocks: Stock[])=>{
-        console.log(stocks);
         this.stocksO = stocks;
       });
   }
 
   getStockProfile(){
       this.apiService.getStockProfile(this.selectedticker).subscribe((stocks: Stock[])=>{
-        console.log(stocks);
-        this.stocksP = stocks;
+        this.stocksP=stocks;
       });
   }
 
   getStockFinancials(){
       this.apiService.getStockFinancials(this.selectedticker).subscribe((stocks: StockHistory[])=>{
         console.log(stocks);
+        for(let i = 0;i<(<int>stocks['length']);i++){   // to replace '%amp;' to '&'
+          stocks[i]['name']=stocks[i]['name'].toString().replace("&amp;","&");
+        }
         this.stocksF = stocks;
       });
   }
