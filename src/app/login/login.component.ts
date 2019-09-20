@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {  }
 
-  tryLogin(form){
+  tryLogin(form){ // login
     if(this.selectedlogin.id!=null && this.selectedlogin.password!=null){
       this.apiService.tryLogin(this.selectedlogin).subscribe((token: string)=>{
         if(this.jwtService.getToken()!='null'){ // if login successful

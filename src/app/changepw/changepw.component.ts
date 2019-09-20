@@ -11,7 +11,7 @@ import { UserPw } from '../api.userinfo';
 })
 export class ChangepwComponent implements OnInit {
   pwinfo: UserPw = {id: null, password: null, npassword: null};
-  msgalert: String = null;
+  msgalert: String = null;  // message
   private minPW: number = 4;
 
   constructor(
@@ -24,7 +24,7 @@ export class ChangepwComponent implements OnInit {
     this.pwinfo.id = currentdata['id'];
   }
 
-  changePassword(form){
+  changePassword(form){ // change password
     if(this.pwinfo.id!=null && this.pwinfo.password!=null && this.pwinfo.npassword!=null){
       if(this.pwinfo.password.length>=this.minPW){
         this.apiService.changePassword(this.pwinfo).subscribe((result: string)=>{ // change password

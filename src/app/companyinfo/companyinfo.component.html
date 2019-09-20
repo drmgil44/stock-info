@@ -1,7 +1,7 @@
 <br />
 <h1>{{selectedticker}} - {{selectedcompany}}</h1>
 <div>
-  <table class="table table-sm table-stripede table-hover">
+  <table class="table table-sm table-stripede table-hover"  *ngIf="isresult">
     <thead>
       <tr class="table-info">
         <th style="width: 30%" scope="col">Name</th>
@@ -20,7 +20,7 @@
     </tbody>
   </table>
   <br />
-  <table class="table table-sm table-stripede table-hover">
+  <table class="table table-sm table-stripede table-hover" *ngIf="isresult">
     <thead>
       <tr class="table-info">
         <th scope="col">Name</th>
@@ -42,3 +42,5 @@
       </tr>
     </tbody>
   </table>
+  <h1>{{msgalert}}</h1>
+</div>

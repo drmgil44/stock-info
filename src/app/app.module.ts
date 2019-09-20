@@ -11,7 +11,6 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { TestComponent } from './test/test.component';
 import { JwtAuth } from './jwt.auth';
 import { Error404Component } from './error404/error404.component';
-import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { JoinComponent } from './join/join.component';
 import { MyinfoComponent } from './myinfo/myinfo.component';
@@ -28,7 +27,6 @@ export function tokenGetter(){  // JWT toekn getter
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     Error404Component,
     TestComponent,
     LoginComponent,

@@ -19,7 +19,9 @@ export class CompanyinfoComponent implements OnInit {
   stocksO:Stock[]; // stock overview values
   stocksP:Stock[]; // stock profile values
   stocksF:StockHistory[]; // stock financials values
-  stocksFstr: string[];
+  stocksFstr: string[]; // fixed stock financials values
+  isresult:boolean = false; // hide table when there is no result
+  msgalert:string;  // message
 
   constructor(
     private apiService: ApiService,
@@ -34,30 +36,36 @@ export class CompanyinfoComponent implements OnInit {
       this.getStockOverview();
       this.getStockProfile();
       this.getStockFinancials();
+
     }
     else this.router.navigate([""]); // rediect to company list
 
   }
 
-  getStockOverview(){
+  getStockOverview(){ // get webscraping data
       this.apiService.getStockOverview(this.selectedticker).subscribe((stocks: Stock[])=>{
         this.stocksO = stocks;
+        if(this.stocksO!=null) {this.isresult=true;}
+        else {this.setAlert();}
       });
   }
 
-  getStockProfile(){
+  getStockProfile(){ // get webscraping data
       this.apiService.getStockProfile(this.selectedticker).subscribe((stocks: Stock[])=>{
         this.stocksP=stocks;
       });
   }
 
-  getStockFinancials(){
+  getStockFinancials(){ // get webscraping data
       this.apiService.getStockFinancials(this.selectedticker).subscribe((stocks: StockHistory[])=>{
-        console.log(stocks);
         for(let i = 0;i<(stocks['length']);i++){   // to replace '%amp;' to '&'
           stocks[i]['name']=stocks[i]['name'].toString().replace("&amp;","&");
         }
         this.stocksF = stocks;
       });
+  }
+
+  setAlert(){ // set message
+    this.msgalert="No result for this company :(";
   }
 }

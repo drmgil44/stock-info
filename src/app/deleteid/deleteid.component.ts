@@ -27,7 +27,7 @@ export class DeleteidComponent implements OnInit {
     this.deleteinfo.id = currentdata['id'];
   }
 
-  deleteAccount(form){
+  deleteAccount(form){  // delete account
     if(this.deleteinfo.password!=null){
       this.apiService.deleteAccount(this.deleteinfo).subscribe((result: string)=>{  // delete Account
         console.log(result['status']);

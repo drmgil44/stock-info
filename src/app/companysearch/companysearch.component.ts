@@ -56,10 +56,7 @@ export class CompanysearchComponent implements OnInit {
     this.islogin=islogin;
   }
 
-  setCompanis(){
-  }
-
-  getSearchResult(pnumber: number){
+  getSearchResult(pnumber: number){ // get search result
       if(this.searchStr!=null){
         this.apiService.getSearchResult(pnumber,this.searchStr).subscribe((cSearch: CompanySearch[])=>{
           console.log(cSearch);

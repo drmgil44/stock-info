@@ -23,7 +23,7 @@ export class JoinComponent implements OnInit {
   ngOnInit() {
   }
 
-  createAccount(form){
+  createAccount(form){  // create account
     if(this.newjoin.id!=null && this.newjoin.password!=null && this.newjoin.name!=null){
       if(this.newjoin.password.length>=this.minPW){
         this.apiService.createAccount(this.newjoin).subscribe((result: string)=>{

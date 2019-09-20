@@ -25,7 +25,7 @@ export class MyinfoComponent implements OnInit {
     this.editinfo.email = currentdata['email'];
   }
 
-  editAccount(form){
+  editAccount(form){  // edit my account
     if(this.editinfo.password!=null){
       this.apiService.editAccount(this.editinfo).subscribe((token: string)=>{ // change infomration
         console.log(token['message']);
