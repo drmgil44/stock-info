@@ -20,7 +20,7 @@ export class CompanyinfoComponent implements OnInit {
   stocksP:Stock[]; // stock profile values
   stocksF:StockHistory[]; // stock financials values
   stocksFstr: string[]; // fixed stock financials values
-  isresult:boolean = false; // hide table when there is no result
+  isresult:boolean = true; // hide table when there is no result
   msgalert:string;  // message
 
   constructor(
@@ -36,7 +36,6 @@ export class CompanyinfoComponent implements OnInit {
       this.getStockOverview();
       this.getStockProfile();
       this.getStockFinancials();
-
     }
     else this.router.navigate([""]); // rediect to company list
 
@@ -44,28 +43,28 @@ export class CompanyinfoComponent implements OnInit {
 
   getStockOverview(){ // get webscraping data
       this.apiService.getStockOverview(this.selectedticker).subscribe((stocks: Stock[])=>{
-        this.stocksO = stocks;
-        if(this.stocksO!=null) {this.isresult=true;}
-        else {this.setAlert();}
+        if(stocks!=null) this.stocksO = stocks;
+        if(this.stocksO==null) {  // no result
+          this.isresult=false;
+          this.msgalert="No result for this company :(";
+        }
       });
   }
 
   getStockProfile(){ // get webscraping data
       this.apiService.getStockProfile(this.selectedticker).subscribe((stocks: Stock[])=>{
-        this.stocksP=stocks;
+        if(stocks!=null) this.stocksP=stocks;
       });
   }
 
   getStockFinancials(){ // get webscraping data
       this.apiService.getStockFinancials(this.selectedticker).subscribe((stocks: StockHistory[])=>{
-        for(let i = 0;i<(stocks['length']);i++){   // to replace '%amp;' to '&'
-          stocks[i]['name']=stocks[i]['name'].toString().replace("&amp;","&");
+        if(stocks!=null){
+          for(let i = 0;i<(stocks['length']);i++){   // to replace '%amp;' to '&'
+            stocks[i]['name']=stocks[i]['name'].toString().replace("&amp;","&");
+          }
+          this.stocksF = stocks;
         }
-        this.stocksF = stocks;
       });
-  }
-
-  setAlert(){ // set message
-    this.msgalert="No result for this company :(";
   }
 }
