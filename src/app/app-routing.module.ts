@@ -12,11 +12,12 @@ import { DeleteidComponent } from './deleteid/deleteid.component';
 import { CompanylistComponent } from './companylist/companylist.component';
 import { CompanyinfoComponent } from './companyinfo/companyinfo.component';
 import { CompanysearchComponent } from './companysearch/companysearch.component';
+import { OverviewResolve, ProfileResolve, FinancialsResolve } from './companyinfo.resolve';
 
 const routes: Routes = [
   {path:'test', component: TestComponent, pathMatch:'full'},
   {path:'', component: CompanylistComponent, pathMatch:'full', runGuardsAndResolvers: 'always'},
-  {path:'cinfo', component: CompanyinfoComponent, pathMatch:'full'},
+  {path:'cinfo', component: CompanyinfoComponent, pathMatch:'full', resolve: {overview:OverviewResolve, profile:ProfileResolve, financials:FinancialsResolve}},
   {path:'search', component: CompanysearchComponent, pathMatch:'full', runGuardsAndResolvers: 'always'},
   {path:'login', component: LoginComponent, pathMatch:'full'},
   {path:'join', component: JoinComponent, pathMatch:'full'},

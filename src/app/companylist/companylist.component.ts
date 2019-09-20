@@ -61,7 +61,6 @@ export class CompanylistComponent implements OnInit {
         this.companies = companies;
         this.cnumber=pnumber;
         this.getPagenumber(); // refresh page number
-        console.log(pnumber);
       })
     }
   }

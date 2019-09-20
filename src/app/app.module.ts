@@ -19,6 +19,7 @@ import { DeleteidComponent } from './deleteid/deleteid.component';
 import { CompanylistComponent } from './companylist/companylist.component';
 import { CompanyinfoComponent } from './companyinfo/companyinfo.component';
 import { CompanysearchComponent } from './companysearch/companysearch.component';
+import { OverviewResolve, ProfileResolve, FinancialsResolve } from './companyinfo.resolve';
 
 export function tokenGetter(){  // JWT toekn getter
   return localStorage.getItem('access_token');
@@ -51,7 +52,7 @@ export function tokenGetter(){  // JWT toekn getter
       }
     })
   ],
-  providers: [JwtAuth],
+  providers: [JwtAuth, OverviewResolve, ProfileResolve, FinancialsResolve],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
