@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {  }
 
   tryLogin(form){
+    if(this.selectedlogin.id!=null && this.selectedlogin.password!=null){
       this.apiService.tryLogin(this.selectedlogin).subscribe((token: string)=>{
         if(this.jwtService.getToken()!='null'){ // if login successful
           this.appComponent.setIslogin(true); // hide login, join menu
@@ -34,5 +35,7 @@ export class LoginComponent implements OnInit {
           this.appComponent.setIslogin(false); // hide My Account menu
         }
       });
+    }
+
   }
 }

@@ -19,6 +19,20 @@
         <button type="submit" class="btn btn-info my-2 my-sm-0">Submit</button>
       </form>
 
+      <ul class="nav navbar-nav ml-auto"  *ngIf="islogin">
+        <li class="nav-item dropdown">
+           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;My Account</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                   <a class="dropdown-item" [routerLink]="['/','myinfo']">Edit My Account</a>
+                   <a class="dropdown-item" [routerLink]="['/','changepw']">Change Password</a>
+                   <div class="dropdown-divider"></div>
+                   <a class="dropdown-item" [routerLink]="['/','deleteid']">Delete My Account</a>
+                   <div class="dropdown-divider"></div>
+                   <a class="dropdown-item"  (click)="logout()">Logout</a>
+              </div>
+         </li>
+      </ul>
+
       <ul class="nav navbar-nav ml-auto" *ngIf="reIsLogin">
         <li class="nav-item"  [routerLinkActive]="['active']">
           <a class="nav-link" [routerLink]="['/','login']">Login</a>
@@ -28,19 +42,7 @@
         </li>
       </ul>
 
-      <ul class="nav navbar-nav ml-auto"  *ngIf="islogin">
-        <li class="nav-item dropdown">
-           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> My Account    </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                   <a class="dropdown-item" [routerLink]="['/','myinfo']">Edit My Accout</a>
-                   <a class="dropdown-item" [routerLink]="['/','changepw']">Change Password</a>
-                   <div class="dropdown-divider"></div>
-                   <a class="dropdown-item" [routerLink]="['/','deleteid']">Delete My Account</a>
-                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item"  (click)="logout()">Logout</a>
-              </div>
-         </li>
-      </ul>
+
     </div>
 </nav>
   <div>
