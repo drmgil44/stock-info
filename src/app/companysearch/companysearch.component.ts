@@ -17,8 +17,11 @@ export class CompanysearchComponent implements OnInit {
 
   companies: CompanySearch[] ;
   pnumber: number[] = [1,2,3,4,5]; // page number
+  isPnumber:boolean[] = [true,true,true,true,true,true,true]; // hide invalid page number - 5 page numbers, previous page, next page
+
   cnumber: number ;        // current page number
   minnumber: number=1;    // min page number
+  maxnumber: number;
   islogin:boolean;        // false - hide bookmark
   searchStr:string=null;   // search word
 
@@ -57,10 +60,10 @@ export class CompanysearchComponent implements OnInit {
   }
 
   getSearchResult(pnumber: number){ // get search result
-      if(this.searchStr!=null){
+    if(this.searchStr!=null && pnumber>=this.minnumber){
         this.apiService.getSearchResult(pnumber,this.searchStr).subscribe((cSearch: CompanySearch[])=>{
-          console.log(cSearch);
           this.companies = cSearch;
+          this.maxnumber = (cSearch[0]['count']-(cSearch[0]['count']%20))/20+1; // get number of pages
           this.cnumber=pnumber;
           this.getPagenumber(); // refresh page number
       });
@@ -68,15 +71,24 @@ export class CompanysearchComponent implements OnInit {
   }
 
   getPagenumber(){  // get page number
-      if(this.cnumber < this.minnumber+2){this.pnumber=[this.minnumber,this.minnumber+1,this.minnumber+2,this.minnumber+3,this.minnumber+4];}
+    let startpage = (this.cnumber-(this.cnumber%5)); // get start page
+    if(this.cnumber%5!=0) startpage=startpage+1;
+    else startpage=startpage-4;
 
-    else {
-      this.pnumber[0]=this.cnumber-2;
-      this.pnumber[1]=this.cnumber-1;
-      this.pnumber[2]=this.cnumber;
-      this.pnumber[3]=this.cnumber+1;
-      this.pnumber[4]=this.cnumber+2;
+    for(let i=0; i<5; i++){ // get page numbers
+      if(startpage+i<=this.maxnumber) { // it is not last page
+        this.pnumber[i]=startpage+i;
+        this.isPnumber[i]=true;
+      }else{ // it is last page
+        this.isPnumber[i]=false;
+      }
     }
+
+    if(this.pnumber[0]==this.minnumber) this.isPnumber[5]=false;  // it's first page - hide previous page button
+    else this.isPnumber[5]=true;
+
+    if(this.pnumber[4]==this.maxnumber) this.isPnumber[6]=false; // it's last page - hide next page button
+    else this.isPnumber[6]=true;
   }
 
   getCompanyInfo(selectedticker,selectedcompany){ // save seleteced ticker to show company information
@@ -88,9 +100,13 @@ export class CompanysearchComponent implements OnInit {
   setBookmark(ticker){  // save bookmark
     this.islogin=this.jwtService.isAuthenicated();  // if token is authenicated
     if(this.islogin==true){ // if token is valid
-      console.log();
+      let currentdata= this.jwtService.decodeData();  // get id from jwt
+      this.apiService.setBookmark(currentdata['id'],ticker).subscribe((result: String)=>{ // save saveBookmark
+
+        console.log(result);
+      })
     }else{   // if the token is not vaild
-      alert("You need to log in first");
+      this.router.navigate(["login"]); // rediect to login
     }
   }
 }

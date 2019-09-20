@@ -12,21 +12,23 @@
       <tr *ngFor="let company of companies">
         <th scope="row">{{ company.ticker }}</th>
         <td><a (click)="getCompanyInfo(company.ticker, company.name)">{{ company.name }}</a></td>
-        <td>
-          <button class="btn btn-info" (click)="setBookmark(company.ticker)"  *ngIf="islogin">Bookmark</button>
+        <td *ngIf="islogin"> 
+          <button class="btn btn-info" (click)="setBookmark(company.ticker)"  >Bookmark</button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
   <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[2]-5)"><</a></li>
-      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[0])">{{pnumber[0]}}</a></li>
-      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[1])">{{pnumber[1]}}</a></li>
-      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[2])">{{pnumber[2]}}</a></li>
-      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[3])">{{pnumber[3]}}</a></li>
-      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[4])">{{pnumber[4]}}</a></li>
-      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[2]+5)">></a></li>
+    <ul class="pagination justify-content-center" >
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(minnumber)" *ngIf="isPnumber[5]"><<</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[0]-1)" *ngIf="isPnumber[5]"><</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[0])" *ngIf="isPnumber[0]">{{pnumber[0]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[1])" *ngIf="isPnumber[1]">{{pnumber[1]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[2])" *ngIf="isPnumber[2]">{{pnumber[2]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[3])" *ngIf="isPnumber[3]">{{pnumber[3]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[4])" *ngIf="isPnumber[4]">{{pnumber[4]}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(pnumber[4]+1)" *ngIf="isPnumber[6]">></a></li>
+      <li class="page-item"><a class="page-link" (click)="getSearchResult(maxnumber)" *ngIf="isPnumber[6]">>></a></li>
     </ul>
 </nav>

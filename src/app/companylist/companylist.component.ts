@@ -17,6 +17,7 @@ export class CompanylistComponent implements OnInit {
 
   companies: Company[];
   pnumber: number[] = [1,2,3,4,5]; // page number
+  isPnumber:boolean[] = [true,true,true,true,true,true,true]; // hide invalid page number - 5 page numbers, previous page, next page
   cnumber: number ;        // current page number
   maxnumber=4267;         // max page number
   minnumber=1;            // min page number
@@ -66,15 +67,24 @@ export class CompanylistComponent implements OnInit {
   }
 
   getPagenumber(){  // get page number
-    if(this.cnumber < this.minnumber+2){this.pnumber=[this.minnumber,this.minnumber+1,this.minnumber+2,this.minnumber+3,this.minnumber+4];}
-    else if(this.cnumber > this.maxnumber-2){this.pnumber=[this.maxnumber-4,this.maxnumber-3,this.maxnumber-2,this.maxnumber-1,this.maxnumber];}
-    else {
-      this.pnumber[0]=this.cnumber-2;
-      this.pnumber[1]=this.cnumber-1;
-      this.pnumber[2]=this.cnumber;
-      this.pnumber[3]=this.cnumber+1;
-      this.pnumber[4]=this.cnumber+2;
+    let startpage = (this.cnumber-(this.cnumber%5)); // get start page
+    if(this.cnumber%5!=0) startpage=startpage+1;
+    else startpage=startpage-4;
+
+    for(let i=0; i<5; i++){ // get page numbers
+      if(startpage+i<=this.maxnumber) { // it is not last page
+        this.pnumber[i]=startpage+i;
+        this.isPnumber[i]=true;
+      }else{ // it is last page
+        this.isPnumber[i]=false;
+      }
     }
+
+    if(this.pnumber[0]==this.minnumber) this.isPnumber[5]=false;  // it's first page - hide previous page button
+    else this.isPnumber[5]=true;
+
+    if(this.pnumber[0]+4>=this.maxnumber) this.isPnumber[6]=false; // it's last page - hide next page button
+    else this.isPnumber[6]=true;
   }
 
   getCompanyInfo(selectedticker,selectedcompany){ // save seleteced ticker to show company information
@@ -87,7 +97,11 @@ export class CompanylistComponent implements OnInit {
   setBookmark(ticker){  // save bookmark
     this.islogin=this.jwtService.isAuthenicated();  // if token is authenicated
     if(this.islogin==true){ // if token is valid
-      console.log();
+      let currentdata= this.jwtService.decodeData();  // get id from jwt
+      this.apiService.setBookmark(currentdata['id'],ticker).subscribe((result: String)=>{ // save saveBookmark
+
+        console.log(result);
+      })
     }else{   // if the token is not vaild
       this.router.navigate(["login"]); // rediect to login
     }

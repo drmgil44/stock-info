@@ -84,4 +84,8 @@ export class ApiService {
   getSearchResult(pnumber: number, search:string): Observable<CompanySearch[]>{ // get Company list response upon page number
       return this.httpClient.get<CompanySearch[]>(`${this.PHP_API_SERVER}/api/searchcompany.php/?pnumber=${pnumber}&search=${search}`);
   }
+
+  setBookmark(id: string, ticker:string): Observable<string>{ // get Company list response upon page number
+      return this.httpClient.get<string>(`${this.PHP_API_SERVER}/api/saveBookmark.php/?id=${id}&ticker=${ticker}`);
+  }
 }

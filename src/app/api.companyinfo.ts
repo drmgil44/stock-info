@@ -23,4 +23,5 @@ export class CompanySearch{
   ticker: string;
   name: string;
   type: string;
+  count: number
 }
