@@ -29,6 +29,7 @@ export class CompanysearchComponent implements OnInit {
     private stockService:StockService,
 
   ) {
+      // Reload data  with same URL
       // subscribe to the router events - storing the subscription
       this.navigationSubscription = this.router.events.subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
@@ -86,7 +87,7 @@ export class CompanysearchComponent implements OnInit {
     this.stockService.setCompany(selectedcompany);
     this.router.navigate(["cinfo"]); // rediect to company info
   }
-  
+
   setBookmark(ticker){  // save bookmark
     this.islogin=this.jwtService.isAuthenicated();  // if token is authenicated
     if(this.islogin==true){ // if token is valid

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy  } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { ApiService } from '../api.service';
 import { JwtService } from '../jwt.service';
@@ -13,6 +13,8 @@ import { Company } from '../api.companyinfo';
   styleUrls: ['./companylist.component.css']
 })
 export class CompanylistComponent implements OnInit {
+  navigationSubscription;
+
   companies: Company[];
   pnumber: number[] = [1,2,3,4,5]; // page number
   cnumber: number ;        // current page number
@@ -25,12 +27,27 @@ export class CompanylistComponent implements OnInit {
     private apiService: ApiService,
     private jwtService:JwtService,
     private stockService:StockService,
-  ) { }
+  ) {
+    // Reload data  with same URL
+    // subscribe to the router events - storing the subscription
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this.ngOnInit();
+      }
+    });
+  }
 
   ngOnInit() {
     this.islogin=this.jwtService.isAuthenicated();  // if token is authenicated
     this.cnumber=this.minnumber;   // reset page number
     this.getCompanyList(this.cnumber);
+  }
+
+  ngOnDestroy() { // unsubscribe
+    if (this.navigationSubscription) {
+       this.navigationSubscription.unsubscribe();
+    }
   }
 
   setIslogin(islogin: boolean){ // for hiding bookmark button
@@ -72,7 +89,7 @@ export class CompanylistComponent implements OnInit {
     if(this.islogin==true){ // if token is valid
       console.log();
     }else{   // if the token is not vaild
-      alert("You need to log in first");
+      this.router.navigate(["login"]); // rediect to login
     }
   }
 

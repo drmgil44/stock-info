@@ -16,7 +16,7 @@ import { CompanysearchComponent } from './companysearch/companysearch.component'
 
 const routes: Routes = [
   {path:'test', component: TestComponent, pathMatch:'full'},
-  {path:'', component: CompanylistComponent, pathMatch:'full'},
+  {path:'', component: CompanylistComponent, pathMatch:'full', runGuardsAndResolvers: 'always'},
   {path:'cinfo', component: CompanyinfoComponent, pathMatch:'full'},
   {path:'search', component: CompanysearchComponent, pathMatch:'full', runGuardsAndResolvers: 'always'},
   {path:'login', component: LoginComponent, pathMatch:'full'},
