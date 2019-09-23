@@ -19,7 +19,11 @@ import { DeleteidComponent } from './deleteid/deleteid.component';
 import { CompanylistComponent } from './companylist/companylist.component';
 import { CompanyinfoComponent } from './companyinfo/companyinfo.component';
 import { CompanysearchComponent } from './companysearch/companysearch.component';
+import { BookmarkComponent } from './bookmark/bookmark.component';
+
 import { OverviewResolve, ProfileResolve, FinancialsResolve } from './companyinfo.resolve';
+import { BookmarkResolve } from './bookmark.resolve';
+
 
 export function tokenGetter(){  // JWT toekn getter
   return localStorage.getItem('access_token');
@@ -37,7 +41,8 @@ export function tokenGetter(){  // JWT toekn getter
     DeleteidComponent,
     CompanylistComponent,
     CompanyinfoComponent,
-    CompanysearchComponent
+    CompanysearchComponent,
+    BookmarkComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +57,7 @@ export function tokenGetter(){  // JWT toekn getter
       }
     })
   ],
-  providers: [JwtAuth, OverviewResolve, ProfileResolve, FinancialsResolve],
+  providers: [JwtAuth, OverviewResolve, ProfileResolve, FinancialsResolve, BookmarkResolve],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

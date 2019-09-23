@@ -12,7 +12,10 @@ import { DeleteidComponent } from './deleteid/deleteid.component';
 import { CompanylistComponent } from './companylist/companylist.component';
 import { CompanyinfoComponent } from './companyinfo/companyinfo.component';
 import { CompanysearchComponent } from './companysearch/companysearch.component';
+import { BookmarkComponent } from './bookmark/bookmark.component';
+
 import { OverviewResolve, ProfileResolve, FinancialsResolve } from './companyinfo.resolve';
+import { BookmarkResolve } from './bookmark.resolve';
 
 const routes: Routes = [
   {path:'test', component: TestComponent, pathMatch:'full'},
@@ -24,7 +27,7 @@ const routes: Routes = [
   {path:'myinfo', component: MyinfoComponent, pathMatch:'full', canActivate: [JwtAuth]},  // /MyAccount can be redirected via JwtAuth
   {path:'changepw', component: ChangepwComponent, pathMatch:'full', canActivate: [JwtAuth]},  // /MyAccount can be redirected via JwtAuth
   {path:'deleteid', component: DeleteidComponent, pathMatch:'full', canActivate: [JwtAuth]},  // /MyAccount can be redirected via JwtAuth
-  {path:'bookmark', component: TestComponent, pathMatch:'full', canActivate: [JwtAuth]},  // /bookmark can be redirected via JwtAuth
+  {path:'bookmark', component: BookmarkComponent, pathMatch:'full', canActivate: [JwtAuth], resolve: {bookmark:BookmarkResolve}},  // /bookmark can be redirected via JwtAuth
   {path:'**', component: Error404Component},    // Any address except the above addresses
 ];
 

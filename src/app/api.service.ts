@@ -88,4 +88,8 @@ export class ApiService {
   setBookmark(id: string, ticker:string): Observable<string>{ // get Company list response upon page number
       return this.httpClient.get<string>(`${this.PHP_API_SERVER}/api/saveBookmark.php/?id=${id}&ticker=${ticker}`);
   }
+
+  getBookmark(id: string): Observable<Company[]>{ // get bookmark list
+      return this.httpClient.get<Company[]>(`${this.PHP_API_SERVER}/api/readBookmark.php/?id=${id}`);
+  }
 }
