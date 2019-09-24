@@ -1,4 +1,22 @@
 <br />
+<div class="wrapper">
+  <div>
+    <form #f = "ngForm" action="" autocomplete="off" (ngSubmit)="saveFormula(f)">
+      <label></label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">Formula</span>
+      </div>
+        <input type="text" class="form-control" placeholder="Username" aria-label="" aria-describedby="basic-addon1" name="formula" [(ngModel)] = "formula">
+      </div>
+      <br />
+      <input type="submit" class="btn btn-info btn-lg btnlog" value="Save formula">
+      <br />
+      <label class="alert">{{msgalert}}</label>
+    </form>
+  </div>
+</div>
+<br />
 <div class="table-responsive-sm">
   <table class="table table-sm table-borderless table-hover">
     <thead >

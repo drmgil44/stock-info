@@ -92,4 +92,8 @@ export class ApiService {
   getBookmark(id: string): Observable<Company[]>{ // get bookmark list
       return this.httpClient.get<Company[]>(`${this.PHP_API_SERVER}/api/readBookmark.php/?id=${id}`);
   }
+
+  deleteBookmark(id: string, ticker:string): Observable<string>{ // delete bookmark from list
+      return this.httpClient.get<string>(`${this.PHP_API_SERVER}/api/deleteBookmark.php/?id=${id}&ticker=${ticker}`);
+  }
 }
