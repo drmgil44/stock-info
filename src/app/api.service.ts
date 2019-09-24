@@ -81,6 +81,10 @@ export class ApiService {
       return this.httpClient.get<StockHistory[]>(`${this.PHP_API_SERVER}/webscraper/webscraper_financials.php/?ticker=${ticker}`);
   }
 
+  getFilteredStockInfo(ticker: string): Observable<Stock[]>{ //get filtered stock information for formula
+      return this.httpClient.get<Stock[]>(`${this.PHP_API_SERVER}/webscraper/webscraper_formula.php/?ticker=${ticker}`);
+  }
+
   getSearchResult(pnumber: number, search:string): Observable<CompanySearch[]>{ // get Company list response upon page number
       return this.httpClient.get<CompanySearch[]>(`${this.PHP_API_SERVER}/api/searchcompany.php/?pnumber=${pnumber}&search=${search}`);
   }
