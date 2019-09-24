@@ -16,14 +16,20 @@ export class CompanysearchComponent implements OnInit {
   navigationSubscription;
 
   companies: CompanySearch[] ;
+  searchStr:string=null;   // search word
+
   pnumber: number[] = [1,2,3,4,5]; // page number
   isPnumber:boolean[] = [true,true,true,true,true,true,true]; // hide invalid page number - 5 page numbers, previous page, next page
-
   cnumber: number ;        // current page number
   minnumber: number=1;    // min page number
   maxnumber: number;
+
   islogin:boolean;        // false - hide bookmark
-  searchStr:string=null;   // search word
+  isresult:boolean=false; // false = hide message alert
+  msgalert:string = "No result found :(";  // message
+
+
+
 
   constructor(
     private router: Router,
@@ -62,10 +68,17 @@ export class CompanysearchComponent implements OnInit {
   getSearchResult(pnumber: number){ // get search result
     if(this.searchStr!=null && pnumber>=this.minnumber){
         this.apiService.getSearchResult(pnumber,this.searchStr).subscribe((cSearch: CompanySearch[])=>{
-          this.companies = cSearch;
-          this.maxnumber = (cSearch[0]['count']-(cSearch[0]['count']%20))/20+1; // get number of pages
-          this.cnumber=pnumber;
-          this.getPagenumber(); // refresh page number
+          if(cSearch!=null){  // if there is result
+            this.companies = cSearch;
+            this.maxnumber = (cSearch[0]['count']-(cSearch[0]['count']%20))/20+1; // get number of pages
+            this.cnumber=pnumber;
+            this.getPagenumber(); // refresh page number
+            this.isresult=false;  // hide alert
+          }else{  // no result
+            this.isresult=true; // show alert
+            this.maxnumber= 0;  // to hide page number
+            this.getPagenumber(); // refresh page number
+          }
       });
     }
   }
@@ -87,7 +100,7 @@ export class CompanysearchComponent implements OnInit {
     if(this.pnumber[0]==this.minnumber) this.isPnumber[5]=false;  // it's first page - hide previous page button
     else this.isPnumber[5]=true;
 
-    if(this.pnumber[4]==this.maxnumber) this.isPnumber[6]=false; // it's last page - hide next page button
+    if(this.pnumber[0]+4>=this.maxnumber) this.isPnumber[6]=false; // it's last page - hide next page button
     else this.isPnumber[6]=true;
   }
 

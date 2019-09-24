@@ -85,7 +85,7 @@ export class ApiService {
       return this.httpClient.get<CompanySearch[]>(`${this.PHP_API_SERVER}/api/searchcompany.php/?pnumber=${pnumber}&search=${search}`);
   }
 
-  setBookmark(id: string, ticker:string): Observable<string>{ // get Company list response upon page number
+  setBookmark(id: string, ticker:string): Observable<string>{ // save bookmark
       return this.httpClient.get<string>(`${this.PHP_API_SERVER}/api/saveBookmark.php/?id=${id}&ticker=${ticker}`);
   }
 
@@ -95,5 +95,13 @@ export class ApiService {
 
   deleteBookmark(id: string, ticker:string): Observable<string>{ // delete bookmark from list
       return this.httpClient.get<string>(`${this.PHP_API_SERVER}/api/deleteBookmark.php/?id=${id}&ticker=${ticker}`);
+  }
+
+  setFormula(id: string, formula:string): Observable<string>{ // save formula
+      return this.httpClient.get<string>(`${this.PHP_API_SERVER}/api/saveFormula.php/?id=${id}&formula=${formula}`);
+  }
+
+  getFormula(id: string): Observable<string>{ // get formula
+      return this.httpClient.get<string>(`${this.PHP_API_SERVER}/api/readFormula.php/?id=${id}`);
   }
 }

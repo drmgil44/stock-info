@@ -15,9 +15,7 @@ export class StockService {
   private ticker=null;  // selected ticker
   private company=null; // selected company
   private searchStr=null  // search input
-  private keyword:string[]=["Open","P/E Ratio", "EPS","Yield","Dividend","P/E Current","Price to Sales Ratio","Price to Book Ratio","Price to Cash Flow Ratio","Total Debt to Enterprise Value","Net Margin","Net Income","Revenue","EPS (Basic)","EPS (Basic) Growth"];
-  private keywordUnit:string[]=["$",  "",        "$",    "%",   "$",       "",               "",                "",                    "B",                        "",                               "",         "$B",         "$B",    "",            "%"   ];
-
+  
   constructor(
     private apiService: ApiService,
   ) { }

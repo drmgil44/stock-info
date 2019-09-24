@@ -4,6 +4,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { JwtService } from '../jwt.service';
 import { StockService } from '../stock.service';
+import { BookmarkService } from '../bookmark.service';
 
 import { Company } from '../api.companyinfo';
 
@@ -24,6 +25,7 @@ export class BookmarkComponent implements OnInit {
     private apiService: ApiService,
     private jwtService: JwtService,
     private stockService:StockService,
+    private bookmarkService:BookmarkService,
     private route: ActivatedRoute,
 
   ) {
@@ -39,6 +41,7 @@ export class BookmarkComponent implements OnInit {
 
   ngOnInit() {
     this.blist=this.route.snapshot.data['bookmark'];  // resolve
+    this.getFormula();
   }
 
   ngOnDestroy() { // unsubscribe
@@ -55,8 +58,21 @@ export class BookmarkComponent implements OnInit {
 
   }
 
-  saveFormula(form){ // save formula
-    this.router.navigate(["bookmark"]); // rediect to company info
+  getFormula(){  // get formula
+    let currentdata= this.jwtService.decodeData();
+    this.apiService.getFormula(currentdata['id']).subscribe((result: string)=>{
+      if(result['formula']!=null) this.formula = result['formula'];
+      else this.formula="";
+      this.bookmarkService.getFormula(result['formula']);
+    })
+  }
+
+  setFormula(form){ // save formula
+    let currentdata= this.jwtService.decodeData();
+    this.apiService.setFormula(currentdata['id'],this.formula).subscribe((result: string)=>{
+      console.log(result);
+      if(result['status']=="saved" || result['status']=="updated") { this.router.navigate(["bookmark"]);} // rediect
+    });
   }
 
   getCompanyInfo(selectedticker,selectedcompany){ // save seleteced ticker to show company information
