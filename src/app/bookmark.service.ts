@@ -73,23 +73,27 @@ export class BookmarkService {
       }
 
       if(this.getIsValid){  // if the formula is valid
-        for(let i = 0;i<(this.valueArr.length);i=i+2){ // convert keyword unit to values
+        for(let i = 0;i<(this.valueArr.length);i++){ // convert keyword unit to values
           console.log(this.valueArr);
-          if(this.valueArr[i].indexOf("$") !== -1){
-            this.valueArr[i]=(this.valueArr[i].toString().replace("$",""))*1;
-          }else if(this.valueArr[i].indexOf("%") !== -1){
-            this.valueArr[i]=(this.valueArr[i].toString().replace("%",""))*0.01;
-          }else if(this.valueArr[i].indexOf("B") !== -1){
-            this.valueArr[i]=(this.valueArr[i].toString().replace("%",""))*1000000000;
-          }else if(this.valueArr[i].indexOf("M") !== -1){
-            this.valueArr[i]=(this.valueArr[i].toString().replace("%",""))*1000000;
-          }else{
-            this.valueArr[i]=(this.valueArr[i])*1;
+          if(this.valueArr[i] != "+" && this.valueArr[i] != "-" && this.valueArr[i] != "/" && this.valueArr[i] != "*" && this.valueArr[i] != "(" & this.valueArr[i] != ")"){
+
+            if(this.valueArr[i].indexOf("$") !== -1){
+              this.valueArr[i]=(this.valueArr[i].toString().replace("$",""))*1;
+            }else if(this.valueArr[i].indexOf("%") !== -1){
+              this.valueArr[i]=(this.valueArr[i].toString().replace("%",""))*0.01;
+            }else if(this.valueArr[i].indexOf("B") !== -1){
+              this.valueArr[i]=(this.valueArr[i].toString().replace("%",""))*1000000000;
+            }else if(this.valueArr[i].indexOf("M") !== -1){
+              this.valueArr[i]=(this.valueArr[i].toString().replace("%",""))*1000000;
+            }else{
+              this.valueArr[i]=(this.valueArr[i])*1;
+            }
           }
         }
+
+        this.calculate();
       }
 
-      console.log(this.valueArr);
     });
 
   }
@@ -118,10 +122,36 @@ export class BookmarkService {
     console.log(this.valueArr);
   }
 
-  calculate(){
+  calculate(){  // Postfix calculator
+    let stack:any = [] ; // stack
+    let postfix:any = [] ; // postfix expresstion
 
 
+    for(let i=0; i<this.valueArr.length; i++){  // convert infix expression to postfix expression
+      console.log("expression: "+postfix+", stack: "+stack);
+
+      if ( !isNaN(this.valueArr[i])) {  // case :  number
+        postfix[postfix.length] = this.valueArr[i]; // save
+
+      }else if(this.valueArr[i] == "("){  // case : (
+        stack[stack.length] = this.valueArr[i]; // push in stack
+
+      }else if(this.valueArr[i] == ")"){  // case : )
+        for(let j=stack.length-1;j>=0;j--){
+          if(stack[j]!="("){ postfix[postfix.length] = stack[j]; stack[j]=null; } // pop stack, save
+          else {break;}
+        }
+
+      }else{                             // case : +, -, *, /
+        stack[stack.length] = this.valueArr[i]; // push in stack
+      }
+    }
+
+    if(stack.length){ // if math symbol is in stack
+      for(let j=stack.length-1;j>=0;j--){
+        if(stack[j]!="(" && stack[j]!=")" && stack[j]!=null){ postfix[postfix.length] = stack[j]; stack[j]=null; }  // pop stack, save
+      }
+    }
+    console.log(postfix);
   }
-
-
 }
