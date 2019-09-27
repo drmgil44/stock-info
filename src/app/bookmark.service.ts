@@ -14,13 +14,14 @@ import { Stock } from './api.companyinfo';
   providedIn: 'root'
 })
 export class BookmarkService {
-  private id;
   private keyword:string[]=["Open","P/E Ratio", "EPS","Yield","Dividend","P/E Current","Price to Sales Ratio","Price to Book Ratio","Price to Cash Flow Ratio","Total Debt to Enterprise Value","Net Margin","Net Income","Revenue","EPS (Basic)","EPS (Basic) Growth"];
   private keywordUnit:string[]=["$",  "",        "$",    "%",   "$",       "",               "",                "",                    "B",                        "",                               "",         "$B",         "$B",    "",            "%"   ];
   private bookmark:Company[];  // bookmark ticker
   private formula:string; // formula
-  private valueArr:string[];  // formula string array to calculate
+
+  private formulaArr: any = []; // formula string array to calculate
   private isValid:boolean = true; // is the formula valid?
+  private result:any = [];   // resulf of the formula
 
   constructor(
     private apiService: ApiService,
@@ -31,119 +32,146 @@ export class BookmarkService {
     return this.isValid;
   }
 
+
   setFormula(formula: string, bookmark: Company[]){  // set formula and bookmarkService
 
-    if(this.bookmark!=bookmark || this.formula!=formula){
+    if(this.bookmark!=bookmark  || this.formula!=formula){
       this.bookmark = bookmark;   // set bookmark
       this.formula = formula;   // set formula
+      this.result = [];     // reset
 
       this.convertFormula();    // convert formula
 
       // convert name of the value to value
       for(let i=0;i<this.bookmark.length;i++){
-        this.convertValue(i);
+        let ticker = this.bookmark[i].ticker;
+
+        this.convertValue(ticker);
+
       }
+
     }
-  }
-
-  convertValue(index: number){  // convert name of value to vlaue
-    let notvalid = 0; // to check if the formula is valid
-    let bookmark:Company[] = this.bookmark;
-
-    this.apiService.getFilteredStockInfo(bookmark[index].ticker).subscribe((stocks: Stock[])=>{ // get stock information
-
-      if(this.getIsValid){  // if the formula is valid
-        for(let i=0;i<this.valueArr.length;i++){
-          for(let j=0;j<(stocks['length']);j++){
-            if(this.valueArr[i]==stocks[j]['name']){  // if the nave of the value is the same
-              this.valueArr[i]=stocks[j]['value'];  // convert name of value to value
-              console.log(this.valueArr);
-            }
-          }
-        }
-      }
-
-      for(let i=0;i<(this.valueArr.length);i++){  // check if the values are valid
-        if(this.valueArr[i]=="n/a") notvalid++;
-      }
-      if(notvalid==0) {             // the formula is valid
-        this.isValid=true;
-      }else {                     // the formula is not valid
-        this.isValid=false;
-      }
-
-      if(this.getIsValid){  // if the formula is valid
-        for(let i = 0;i<(this.valueArr.length);i++){ // convert keyword unit to values
-          console.log(this.valueArr);
-          if(this.valueArr[i] != "+" && this.valueArr[i] != "-" && this.valueArr[i] != "/" && this.valueArr[i] != "*" && this.valueArr[i] != "(" & this.valueArr[i] != ")"){
-
-            if(this.valueArr[i].indexOf("$") !== -1){
-              this.valueArr[i]=(this.valueArr[i].toString().replace("$",""))*1;
-            }else if(this.valueArr[i].indexOf("%") !== -1){
-              this.valueArr[i]=(this.valueArr[i].toString().replace("%",""))*0.01;
-            }else if(this.valueArr[i].indexOf("B") !== -1){
-              this.valueArr[i]=(this.valueArr[i].toString().replace("%",""))*1000000000;
-            }else if(this.valueArr[i].indexOf("M") !== -1){
-              this.valueArr[i]=(this.valueArr[i].toString().replace("%",""))*1000000;
-            }else{
-              this.valueArr[i]=(this.valueArr[i])*1;
-            }
-          }
-        }
-
-        this.calculate();
-      }
-
-    });
-
   }
 
   convertFormula(){  // split formula to array and convert formula to name of the value
     let notvalid = 0; // to check if the formula is valid
 
-    let splitstr = this.formula.split(" ",50);  // split string
-    console.log(splitstr);
-    for(let i=0;i<splitstr.length;i++){ // consert formula to real value name
-      for(let j=0;j<this.keyword.length;j++){
-        if(splitstr[i]*1==j) {splitstr[i]=this.keyword[j];} // if the splitstr[] is number, change to keyword
-        else if(splitstr[i]=="a") {splitstr[i]="+";}  // if splitstr[] is alphabet, change to math symbol
-        else if(splitstr[i]=="b") {splitstr[i]="-";}
-        else if(splitstr[i]=="c") {splitstr[i]="*";}
-        else if(splitstr[i]=="d") {splitstr[i]="/";}
-        else {notvalid++;}
+    let splitstr:any = this.formula.split(" ",50);  // split string
+    //console.log(splitstr);
+    for(let i=0;i<splitstr.length;i++){ // consert formula to real value
+      if ( !isNaN(splitstr[i]*1)) {  // case :  number
+          for(let j=0;j<this.keyword.length;j++){
+            if(splitstr[i]*1==j) {splitstr[i]=this.keyword[j]; break;} // if the splitstr[] is number, change to keyword
+          }
       }
+    else if(splitstr[i]=="+" || splitstr[i]=="-" || splitstr[i]=="*" || splitstr[i]=="/" || splitstr[i]=="(" || splitstr[i]==")"){} // no change
+      else {notvalid++;}
+
     }
+
     if(notvalid==0) {             // the formula is valid
       this.isValid=true;
     }else {                     // the formula is not valid
       this.isValid=false;
     }
-    this.valueArr=splitstr;
-    console.log(this.valueArr);
+    this.formulaArr=splitstr;
+    console.log(this.formulaArr);
+
   }
 
-  calculate(){  // Postfix calculator
-    let stack:any = [] ; // stack
+  convertValue(ticker: string){  // convert name of value to vlaue
+    let notvalid = 0; // to check if the formula is valid
+    let valueArr:any = [];  // value array to calculate
+    let result:number = null; // result of the calculation
+
+    //console.log(ticker);
+    this.apiService.getFilteredStockInfo(ticker).subscribe((stocks: Stock[])=>{ // get stock information
+
+      if(this.getIsValid()){  // if the formula is valid
+        for(let i=0;i<this.formulaArr.length;i++){
+          if(this.formulaArr[i] != "+" && this.formulaArr[i] != "-" && this.formulaArr[i] != "/" && this.formulaArr[i] != "*" && this.formulaArr[i] != "(" && this.formulaArr[i] != ")"){
+            for(let j=0;j<(stocks['length']);j++){
+              if(this.formulaArr[i]==stocks[j]['name']){  // if the nave of the value is the same
+                valueArr[i]=stocks[j]['value'];  // convert name of value to value
+              }
+            }
+          }else{
+            valueArr[i] = this.formulaArr[i];
+          }
+          //console.log(this.valueArr);
+        }
+      }
+
+      for(let i=0;i<(valueArr.length);i++){  // check if the values are valid
+        if(valueArr[i]=="n/a") notvalid++;
+      }
+
+      console.log(valueArr);
+
+      if(notvalid==0){  // if the values are valid
+        for(let i = 0;i<(valueArr.length);i++){ // convert value units to values
+
+          if(valueArr[i] != "+" && valueArr[i] != "-" && valueArr[i] != "/" && valueArr[i] != "*" && valueArr[i] != "(" && valueArr[i] != ")"){
+
+            if(valueArr[i].indexOf("$") !== -1 && valueArr[i].indexOf("B") == -1 && valueArr[i].indexOf("M") == -1 && valueArr[i].indexOf("K") == -1){ // if the unit is $, not including B or M or K
+              valueArr[i]=(valueArr[i].toString().replace("$",""))*1;
+            }else if(valueArr[i].indexOf("%") !== -1){   // if the unit is %
+              valueArr[i]=(valueArr[i].toString().replace("%",""))*0.01;
+            }else if(valueArr[i].indexOf("B") !== -1){   // if the unit is B
+              valueArr[i]=(valueArr[i].toString().replace("$",""));
+              valueArr[i]=(valueArr[i].toString().replace("B",""))*1000000000;
+            }else if(valueArr[i].indexOf("M") !== -1){ // if the unit is M
+              valueArr[i]=(valueArr[i].toString().replace("$",""));
+              valueArr[i]=(valueArr[i].toString().replace("M",""))*1000000;
+            }else if(valueArr[i].indexOf("K") !== -1){ // if the unit is K
+              valueArr[i]=(valueArr[i].toString().replace("$",""));
+              valueArr[i]=(valueArr[i].toString().replace("K",""))*1000;
+            }else{
+              valueArr[i]=(valueArr[i])*1;
+            }
+          }
+        }
+        //console.log(valueArr);
+        result = this.calculate(valueArr); // calculate formula
+      }
+
+
+      for(let i=0; i<this.bookmark.length;i++){
+        if(this.bookmark[i].ticker==ticker) {
+          if(result!=null) this.result[i]=result; // save result of formula
+          else this.result[i]="Not available";
+        }
+      }
+      console.log(this.result);
+
+    });
+
+  }
+
+
+
+  calculate(valueArr:any[]): number{  // Postfix calculator
     let postfix:any = [] ; // postfix expresstion
 
+    // convert infix expression to postfix
+    let stack:any = [] ; // stack
+    for(let i=0; i<valueArr.length; i++){
+      //console.log("expression: "+postfix+", stack: "+stack);
 
-    for(let i=0; i<this.valueArr.length; i++){  // convert infix expression to postfix expression
-      console.log("expression: "+postfix+", stack: "+stack);
+      if ( !isNaN(valueArr[i])) {  // case :  number
+        postfix[postfix.length] =valueArr[i]; // save
 
-      if ( !isNaN(this.valueArr[i])) {  // case :  number
-        postfix[postfix.length] = this.valueArr[i]; // save
+      }else if(valueArr[i] == "("){  // case : (
+        stack[stack.length] = valueArr[i]; // push in stack
 
-      }else if(this.valueArr[i] == "("){  // case : (
-        stack[stack.length] = this.valueArr[i]; // push in stack
-
-      }else if(this.valueArr[i] == ")"){  // case : )
+      }else if(valueArr[i] == ")"){  // case : )
         for(let j=stack.length-1;j>=0;j--){
           if(stack[j]!="("){ postfix[postfix.length] = stack[j]; stack[j]=null; } // pop stack, save
           else {break;}
         }
 
       }else{                             // case : +, -, *, /
-        stack[stack.length] = this.valueArr[i]; // push in stack
+        stack[stack.length] = valueArr[i]; // push in stack
       }
     }
 
@@ -152,6 +180,33 @@ export class BookmarkService {
         if(stack[j]!="(" && stack[j]!=")" && stack[j]!=null){ postfix[postfix.length] = stack[j]; stack[j]=null; }  // pop stack, save
       }
     }
-    console.log(postfix);
+    //console.log(postfix);
+
+    // caculate
+    let stack2:any = [];
+    let number1:number  = null;
+    let number2:number  = null;
+    for(let i=0; i<postfix.length; i++){
+      if ( !isNaN(postfix[i])) {  // case :  number
+        stack2[stack2.length] = postfix[i]; // push in stock
+      }else{                    // case : math symbol
+        for(let j=stack2.length-1;j>=0;j--){
+          if (stack2[j]!=null){ // if it is not null
+            if(number1==null){number1=stack2[j]; stack2[j]=null;}
+            else {number2=stack2[j]; stack2[j]=null; break;}
+          }
+        }
+
+        if(postfix[i]=="+")  stack2[stack2.length]= number2+number1;  // calculate
+        else if(postfix[i]=="-")  stack2[stack2.length]= number2-number1;
+        else if(postfix[i]=="*")  stack2[stack2.length]= number2*number1;
+        else if(postfix[i]=="/")  stack2[stack2.length]= number2/number1;
+        number1=null;
+      }
+      //console.log(postfix[i]+", stack2: {{ "+stack2+"}}");
+    }
+
+
+    return stack2[stack2.length-1];  // save calculation result to result
   }
 }

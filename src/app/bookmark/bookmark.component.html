@@ -7,9 +7,35 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1">Formula</span>
       </div>
-        <input type="text" class="form-control" placeholder="Username" aria-label="" aria-describedby="basic-addon1" name="formula" [(ngModel)] = "formula">
+        <input type="text" class="form-control" placeholder="Formula" aria-label="" aria-describedby="basic-addon1" name="formula" [(ngModel)] = "formula">
       </div>
-      <br />
+      <div class="table-responsive-sm">
+        <table class="table table-sm table-borderless table-hover">
+          <thead >
+            <tr  class="table-info" >
+              <th scope="col">Formula</th>
+              <td scope="row" *ngFor="let word of keyword; let idx=index">{{ idx }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr >
+              <th scope="col">Name</th>
+              <td *ngFor="let word of keyword; let idx=index">{{word}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <tr>
+            <th scope="col">Math symbol :</th>
+            <th scope="col"> +, -, *, /, (, )</th>
+            <td class="alert">  Use space between number and math symbol.</td>
+          </tr>
+          <tr>
+            <th scope="col">Example</th>
+            <td>  ( ( 0 + 1 ) * ( 2 - 3 ) ) / 4 </td>
+          </tr>
+        </table>
+      </div>
       <input type="submit" class="btn btn-info btn-lg btnlog" value="Save formula">
       <br />
       <label class="alert">{{msgalert}}</label>
@@ -23,13 +49,14 @@
       <tr class="table-info">
         <th scope="col">Ticker</th>
         <th scope="col">Company Name</th>
-
+        <th scope="col">Value from Formula</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let company of blist">
+      <tr *ngFor="let company of blist; let idx=index">
         <th scope="row">{{ company.ticker }}</th>
         <td><a (click)="getCompanyInfo(company.ticker, company.name)">{{ company.name }}</a></td>
+        <td >{{result[idx]}}</td>
         <td>
           <button class="btn btn-info" (click)="deleteBookmark(company.ticker)">Remove</button>
         </td>
