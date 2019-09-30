@@ -32,17 +32,17 @@ export class BookmarkComponent implements OnInit {
      }
    }
  };
- public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+ public barChartLabels: Label[] = [];
  public barChartType: ChartType = 'bar';
  public barChartLegend = true;
  public barChartPlugins = [pluginDataLabels];
 
  public barChartData: ChartDataSets[] = [
-   { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-   { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+   { data: [], label: 'Open' },
+   { data: [], label: 'Formula' }
  ];
 
- //------------
+ //--------------------------------------------------------
 
   private maxformula:number = 100; // maximum length of formula
   blist:Company[];  // Bookmark list
@@ -53,6 +53,8 @@ export class BookmarkComponent implements OnInit {
   private formulaArr: any = []; // formula string array to calculate
   private isValid:boolean = true; // is the formula valid?
   result:any = [];   // resulf of the formula
+  dataGraph:number = [];  // graph formula value
+  openGraph:number = []; // open value of tickers
 
 
   constructor(
@@ -78,7 +80,11 @@ export class BookmarkComponent implements OnInit {
   ngOnInit() {
     this.blist=this.route.snapshot.data['bookmark'];  // resolve
 
-    this.getFormula();
+    for(let i=0; i<this.blist.length; i++){ // graph label
+        this.barChartLabels[i]=this.blist[i].ticker;
+    }
+
+    this.getFormula();  // get formula
   }
 
   ngOnDestroy() { // unsubscribe
@@ -191,6 +197,7 @@ export class BookmarkComponent implements OnInit {
     let valueArr:any = [];  // value array to calculate
     let result:number = null; // result of the calculation
 
+
     //console.log(ticker);
     this.apiService.getFilteredStockInfo(ticker).subscribe((stocks: Stock[])=>{ // get stock information
       if(stocks==null) notvalid++;
@@ -199,7 +206,7 @@ export class BookmarkComponent implements OnInit {
         for(let i=0;i<this.formulaArr.length;i++){
           if(this.formulaArr[i] != "+" && this.formulaArr[i] != "-" && this.formulaArr[i] != "/" && this.formulaArr[i] != "*" && this.formulaArr[i] != "(" && this.formulaArr[i] != ")"){
             for(let j=0;j<(stocks['length']);j++){
-              if(this.formulaArr[i]==stocks[j]['name']){  // if the nave of the value is the same
+              if(this.formulaArr[i]==stocks[j]['name']){  // if the name of the value is the same
                 valueArr[i]=stocks[j]['value'];  // convert name of value to value
               }
             }
@@ -214,7 +221,7 @@ export class BookmarkComponent implements OnInit {
         if(valueArr[i]=="n/a") notvalid++;
       }
 
-      console.log(valueArr);
+      //console.log(valueArr);
 
 
       if(notvalid==0){  // if the values are valid
@@ -240,18 +247,43 @@ export class BookmarkComponent implements OnInit {
             }
           }
         }
-        console.log(valueArr);
+        //console.log(valueArr);
         result = this.calculate(valueArr); // calculate formula
+        result = result - ((result * 10000)%10)/10000;  // cut value 0.001
+        //console.log(((result * 1000)%10)/1000);
       }
 
       for(let i=0; i<this.blist.length;i++){
         if(this.blist[i].ticker==ticker) {
-          if(result!=null) this.result[i]=result; // save result of formula
-          else this.result[i]="Not available";
+          if(result!=null) {
+            this.result[i]=result;  // save result of formula
+            this.dataGraph[i] = result; // for graph formula value
+          } else {
+            this.result[i]="Not available";
+            this.dataGraph[i] = 0;
+          }
+
+          if(stocks!=null) this.openGraph[i]=stocks[0]['value'].toString().replace("$","")*1; // for graph open value
+          else this.openGraph[i]=0;
+          //console.log(this.openGraph);
         }
+
       }
 
-      console.log(this.result);
+      let graphValid=0;
+      for(let i=0; i<this.dataGraph.length; i++){
+        if(this.dataGraph[i]==null)graphValid++;
+      }
+      if(graphValid==0){
+        this.barChartData[0].data = this.openGraph;
+        this.barChartData[1].data = this.dataGraph; // send formula value to graph
+        console.log(this.dataGraph+"...."+this.openGraph);
+      }
+
+
+
+      //console.log(this.result);
+
 
     });
 
