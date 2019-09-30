@@ -1,3 +1,4 @@
+
 <br />
 <div class="wrapper">
   <div>
@@ -40,6 +41,20 @@
       <br />
       <label class="alert">{{msgalert}}</label>
     </form>
+  </div>
+</div>
+<div>
+  <div>
+    <div style="display: block">
+      <canvas baseChart
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [plugins]="barChartPlugins"
+        [legend]="barChartLegend"
+        [chartType]="barChartType">
+      </canvas>
+    </div>
   </div>
 </div>
 <br />

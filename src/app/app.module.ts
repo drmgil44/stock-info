@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 
+import { ChartsModule } from 'ng2-charts';
+
 import { TestComponent } from './test/test.component';
 import { JwtAuth } from './jwt.auth';
 import { Error404Component } from './error404/error404.component';
@@ -49,6 +51,7 @@ export function tokenGetter(){  // JWT toekn getter
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ChartsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

@@ -13,7 +13,8 @@ import { Join } from '../api.userinfo';
 export class JoinComponent implements OnInit {
   newjoin: Join = {id: null, password: null, name:null};
   msgalert: String = null;
-  private minPW: number = 4;
+  private minPW: number = 4;  // minimum length of Password
+
 
   constructor(
     private apiService: ApiService,
@@ -25,7 +26,7 @@ export class JoinComponent implements OnInit {
 
   createAccount(form){  // create account
     if(this.newjoin.id!=null && this.newjoin.password!=null && this.newjoin.name!=null){
-      if(this.newjoin.password.length>=this.minPW){
+      if(this.newjoin.password.length>=this.minPW){ // password length
         this.apiService.createAccount(this.newjoin).subscribe((result: string)=>{
           console.log(result);
           if(result['status']=='join'){ // if Join successful
