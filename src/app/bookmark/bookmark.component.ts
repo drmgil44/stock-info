@@ -55,6 +55,8 @@ export class BookmarkComponent implements OnInit {
   result:any = [];   // resulf of the formula
   dataGraph:number = [];  // graph formula value
   openGraph:number = []; // open value of tickers
+  msgalert:string = ''; // alert
+  isResult:boolean = false; // if the formula result exists
 
 
   constructor(
@@ -99,6 +101,20 @@ export class BookmarkComponent implements OnInit {
       if(result['status']=="deleted") { this.router.navigate(["bookmark"]);} // rediect
     });
 
+  }
+
+  sendEmail(){  // send information to eamil
+    let currentdata= this.jwtService.decodeData();
+    let value:any =[];
+    let bookmark_max = 5;
+    for(let i=0;i<bookmark_max;i++){  // loop until the number of bookmark maximum
+      if(this.result[i]!=null) value[i]=this.result[i]; // save result
+      else value[i]=null;
+    }
+    this.apiService.sendEmail(currentdata['id'],value[0],value[1],value[2],value[3],value[4]).subscribe((emailresult: string)=>{
+      console.log(emailresult);
+      this.msgalert = emailresult['message'];
+    })
   }
 
   getFormula(){  // get formula
@@ -146,6 +162,7 @@ export class BookmarkComponent implements OnInit {
     this.stockService.setCompany(selectedcompany);
     this.router.navigate(["cinfo"]); // rediect to company info
   }
+
 
   //------------------------------------------------------------------------------------
   //------------------------------------------------------------------------------------
@@ -272,21 +289,18 @@ export class BookmarkComponent implements OnInit {
 
       let graphValid=0;
       for(let i=0; i<this.dataGraph.length; i++){
-        if(this.dataGraph[i]==null)graphValid++;
+        if(this.dataGraph[i]==null)graphValid++;  // if any information is missing
       }
-      if(graphValid==0){
+      if(graphValid==0){  // if all the calculation is done - all information is in datagraph
+        console.log(this.dataGraph);
         this.barChartData[0].data = this.openGraph;
         this.barChartData[1].data = this.dataGraph; // send formula value to graph
-        console.log(this.dataGraph+"...."+this.openGraph);
+        this.isResult=true;
+        //console.log(this.dataGraph+"...."+this.openGraph);
       }
 
-
-
       //console.log(this.result);
-
-
     });
-
   }
 
 

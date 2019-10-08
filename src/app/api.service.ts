@@ -108,4 +108,8 @@ export class ApiService {
   getFormula(id: string): Observable<string>{ // get formula
       return this.httpClient.get<string>(`${this.PHP_API_SERVER}/api/readFormula.php/?id=${id}`);
   }
+
+  sendEmail(id: string, value1, value2, value3, value4, value5): Observable<string>{ // get bookmark list
+      return this.httpClient.get<string>(`${this.PHP_API_SERVER}/api/sendInfoEmail.php/?id=${id}&value1=${value1}&value2=${value2}&value3=${value3}&value4=${value4}&value5=${value5}`);
+  }
 }
