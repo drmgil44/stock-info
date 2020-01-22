@@ -5,6 +5,8 @@ import { ApiService } from '../api.service';
 import { JwtService } from '../jwt.service';
 import { StockService } from '../stock.service';
 
+import { RaspberrypiService } from '../raspberrypi.service';
+
 import { Company } from '../api.companyinfo';
 
 @Component({
@@ -28,6 +30,7 @@ export class CompanylistComponent implements OnInit {
     private apiService: ApiService,
     private jwtService:JwtService,
     private stockService:StockService,
+    private piService:RaspberrypiService,
   ) {
     // Reload data  with same URL
     // subscribe to the router events - storing the subscription
@@ -87,6 +90,10 @@ export class CompanylistComponent implements OnInit {
   }
 
   getCompanyInfo(selectedticker,selectedcompany){ // save seleteced ticker to show company information
+    this.piService.sendStringToPI(selectedticker,selectedcompany).subscribe((result: String)=>{ // send strings to Raspberry PI server
+      console.log(result);
+    })
+
     this.stockService.setTicker(selectedticker);
     this.stockService.setCompany(selectedcompany);
     this.router.navigate(["cinfo"]); // rediect to company info

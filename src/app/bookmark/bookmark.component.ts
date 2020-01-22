@@ -230,7 +230,7 @@ export class BookmarkComponent implements OnInit {
           }else{
             valueArr[i] = this.formulaArr[i];
           }
-          //console.log(this.valueArr);
+          //console.log(valueArr);
         }
       }
 
@@ -247,19 +247,25 @@ export class BookmarkComponent implements OnInit {
           if(valueArr[i] != "+" && valueArr[i] != "-" && valueArr[i] != "/" && valueArr[i] != "*" && valueArr[i] != "(" && valueArr[i] != ")"){
 
             if(valueArr[i].indexOf("$") !== -1 && valueArr[i].indexOf("B") == -1 && valueArr[i].indexOf("M") == -1 && valueArr[i].indexOf("K") == -1){ // if the unit is $, not including B or M or K
+              valueArr[i]=(valueArr[i].toString().replace(",",""));
               valueArr[i]=(valueArr[i].toString().replace("$",""))*1;
             }else if(valueArr[i].indexOf("%") !== -1){   // if the unit is %
+              valueArr[i]=(valueArr[i].toString().replace(",",""));
               valueArr[i]=(valueArr[i].toString().replace("%",""))*0.01;
             }else if(valueArr[i].indexOf("B") !== -1){   // if the unit is B
+              valueArr[i]=(valueArr[i].toString().replace(",",""));
               valueArr[i]=(valueArr[i].toString().replace("$",""));
               valueArr[i]=(valueArr[i].toString().replace("B",""))*1000000000;
             }else if(valueArr[i].indexOf("M") !== -1){ // if the unit is M
+              valueArr[i]=(valueArr[i].toString().replace(",",""));
               valueArr[i]=(valueArr[i].toString().replace("$",""));
               valueArr[i]=(valueArr[i].toString().replace("M",""))*1000000;
             }else if(valueArr[i].indexOf("K") !== -1){ // if the unit is K
+              valueArr[i]=(valueArr[i].toString().replace(",",""));
               valueArr[i]=(valueArr[i].toString().replace("$",""));
               valueArr[i]=(valueArr[i].toString().replace("K",""))*1000;
             }else{
+              valueArr[i]=(valueArr[i].toString().replace(",",""));
               valueArr[i]=(valueArr[i])*1;
             }
           }
@@ -280,7 +286,10 @@ export class BookmarkComponent implements OnInit {
             this.dataGraph[i] = 0;
           }
 
-          if(stocks!=null) this.openGraph[i]=stocks[0]['value'].toString().replace("$","")*1; // for graph open value
+          if(stocks!=null) {  // for graph open value
+            let temp:string=stocks[0]['value'].toString().replace(",","");
+            this.openGraph[i]=temp.replace("$","")*1;
+          }
           else this.openGraph[i]=0;
           //console.log(this.openGraph);
         }
@@ -298,6 +307,7 @@ export class BookmarkComponent implements OnInit {
         this.isResult=true;
         //console.log(this.dataGraph+"...."+this.openGraph);
       }
+
 
       //console.log(this.result);
     });
