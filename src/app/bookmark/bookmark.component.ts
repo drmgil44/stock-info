@@ -38,8 +38,11 @@ export class BookmarkComponent implements OnInit {
  public barChartPlugins = [pluginDataLabels];
 
  public barChartData: ChartDataSets[] = [
-   { data: [], label: 'Open' },
-   { data: [], label: 'Formula' }
+   { data: [], label: '2014' },
+   { data: [], label: '2015' },
+   { data: [], label: '2016' },
+   { data: [], label: '2017' },
+   { data: [], label: '2018' }
  ];
 
  //--------------------------------------------------------
@@ -53,8 +56,6 @@ export class BookmarkComponent implements OnInit {
   private formulaArr: any = []; // formula string array to calculate
   private isValid:boolean = true; // is the formula valid?
   result:any = [];   // resulf of the formula
-  dataGraph:number = [];  // graph formula value
-  openGraph:number = []; // open value of tickers
   msgalert:string = ''; // alert
   isResult:boolean = false; // if the formula result exists
 
@@ -219,6 +220,12 @@ export class BookmarkComponent implements OnInit {
     this.apiService.getFilteredStockInfo(ticker).subscribe((stocks: Stock[])=>{ // get stock information
       if(stocks==null) notvalid++;
 
+      //---Graph-----------------------------------------
+      this.barChartData[0].data = [0];
+      this.barChartData[1].data = [1]; // send formula value to graph
+
+      //----------------------------------------------
+
       if(this.getIsValid() && notvalid==0){  // if the formula is valid
         for(let i=0;i<this.formulaArr.length;i++){
           if(this.formulaArr[i] != "+" && this.formulaArr[i] != "-" && this.formulaArr[i] != "/" && this.formulaArr[i] != "*" && this.formulaArr[i] != "(" && this.formulaArr[i] != ")"){
@@ -280,36 +287,18 @@ export class BookmarkComponent implements OnInit {
         if(this.blist[i].ticker==ticker) {
           if(result!=null) {
             this.result[i]=result;  // save result of formula
-            this.dataGraph[i] = result; // for graph formula value
           } else {
             this.result[i]="Not available";
-            this.dataGraph[i] = 0;
           }
 
           if(stocks!=null) {  // for graph open value
             let temp:string=stocks[0]['value'].toString().replace(",","");
-            this.openGraph[i]=temp.replace("$","")*1;
           }
-          else this.openGraph[i]=0;
-          //console.log(this.openGraph);
         }
 
       }
 
-      let graphValid=0;
-      for(let i=0; i<this.dataGraph.length; i++){
-        if(this.dataGraph[i]==null)graphValid++;  // if any information is missing
-      }
-      if(graphValid==0){  // if all the calculation is done - all information is in datagraph
-        console.log(this.dataGraph);
-        this.barChartData[0].data = this.openGraph;
-        this.barChartData[1].data = this.dataGraph; // send formula value to graph
-        this.isResult=true;
-        //console.log(this.dataGraph+"...."+this.openGraph);
-      }
 
-
-      //console.log(this.result);
     });
   }
 
