@@ -18,7 +18,7 @@ import { Company, Stock } from '../api.companyinfo';
   styleUrls: ['./bookmark.component.css']
 })
 export class BookmarkComponent implements OnInit {
-  navigationSubscription; // for supcription
+  navigationSubscription; // for subscription
 
   // ------------------------------------------ graph
   public barChartOptions: ChartOptions = {
@@ -38,11 +38,11 @@ export class BookmarkComponent implements OnInit {
  public barChartPlugins = [pluginDataLabels];
 
  public barChartData: ChartDataSets[] = [
-   { data: [], label: '2014' },
    { data: [], label: '2015' },
    { data: [], label: '2016' },
    { data: [], label: '2017' },
-   { data: [], label: '2018' }
+   { data: [], label: '2018' },
+   { data: [], label: '2019' }
  ];
 
  //--------------------------------------------------------
@@ -51,11 +51,20 @@ export class BookmarkComponent implements OnInit {
   blist:Company[];  // Bookmark list
   formula:string;
 
-  private keyword:string[]=["Open","P/E Ratio", "EPS","Yield","Dividend","P/E Current","Price to Sales Ratio","Price to Book Ratio","Price to Cash Flow Ratio","Total Debt to Enterprise Value","Net Margin","Net Income","Revenue","EPS (Basic)","EPS (Basic) Growth"];
+  private keyword:string[]=["Open","P/E Ratio", "EPS","Yield","Dividend","P/E Current","Price to Sales Ratio","Price to Book Ratio","Price to Cash Flow Ratio","Total Debt to Enterprise Value","Net Margin","Net Income","Revenue","  EPS (Basic)1","EPS (Basic) Growth"];
   private keywordUnit:string[]=["$",  "",        "$",    "%",   "$",       "",               "",                "",                    "B",                        "",                               "",         "$B",         "$B",    "",            "%"   ];
   private formulaArr: any = []; // formula string array to calculate
   private isValid:boolean = true; // is the formula valid?
+  // graph
+  data2015:number[] = [];  // graph  value
+  data2016:number[] = [];  // graph  value
+  data2017:number[] = [];  // graph  value
+  data2018:number[] = [];  // graph  value
+  data2019:number[] = [];  // graph  value
+  // information table
   result:any = [];   // resulf of the formula
+  dataeps:any[] = []; // EPS persent change (2019-2015)/2019*100
+  dataReco:any[] = []; // Recommendation
   msgalert:string = ''; // alert
   isResult:boolean = false; // if the formula result exists
 
@@ -132,7 +141,6 @@ export class BookmarkComponent implements OnInit {
       }else this.formula="";
 
 
-
       this.calculateFormula();  // calculate formula
       //this.bookmarkService.setFormula(result['formula'],this.blist);
     })
@@ -181,7 +189,23 @@ export class BookmarkComponent implements OnInit {
     for(let i=0;i<this.blist.length;i++){
       let ticker = this.blist[i].ticker;
       this.convertValue(ticker);
+
+      if(i==this.blist.length-1){
+        this.isResult=true;
+
+        ///------------------------- graph
+        this.barChartData[0].data = this.data2015;
+        this.barChartData[1].data = this.data2016;
+        this.barChartData[2].data = this.data2017;
+        this.barChartData[3].data = this.data2018;
+        this.barChartData[4].data = this.data2019;
+        ///---------------------------------
+        console.log(this.barChartData);
+      }
+
     }
+
+
   }
 
   convertFormula(){  // split formula to array and convert formula to name of the value
@@ -206,7 +230,7 @@ export class BookmarkComponent implements OnInit {
       this.isValid=false;
     }
     this.formulaArr=splitstr;
-    console.log(this.formulaArr);
+    //console.log(this.formulaArr);
 
   }
 
@@ -214,18 +238,14 @@ export class BookmarkComponent implements OnInit {
     let notvalid = 0; // to check if the formula is valid
     let valueArr:any = [];  // value array to calculate
     let result:number = null; // result of the calculation
+    let graphArr:any = [];  // value for graph
+    let recoArr:any = []; // value for Recommendation
 
 
     //console.log(ticker);
     this.apiService.getFilteredStockInfo(ticker).subscribe((stocks: Stock[])=>{ // get stock information
       if(stocks==null) notvalid++;
-
-      //---Graph-----------------------------------------
-      this.barChartData[0].data = [0];
-      this.barChartData[1].data = [1]; // send formula value to graph
-
-      //----------------------------------------------
-
+      //console.log(stocks);
       if(this.getIsValid() && notvalid==0){  // if the formula is valid
         for(let i=0;i<this.formulaArr.length;i++){
           if(this.formulaArr[i] != "+" && this.formulaArr[i] != "-" && this.formulaArr[i] != "/" && this.formulaArr[i] != "*" && this.formulaArr[i] != "(" && this.formulaArr[i] != ")"){
@@ -233,6 +253,31 @@ export class BookmarkComponent implements OnInit {
               if(this.formulaArr[i]==stocks[j]['name']){  // if the name of the value is the same
                 valueArr[i]=stocks[j]['value'];  // convert name of value to value
               }
+
+              // Recommendation
+              if(stocks[j]['name']=="P/E Current"){
+                recoArr[0]=stocks[j]['value']*1;
+              }else if(stocks[j]['name']=="EPS (Basic) Growth"){
+                let temp=stocks[j]['value'];
+                temp=temp.toString().replace("%","");
+                recoArr[1]=temp*1;
+              }
+              //console.log(recoArr);
+
+              //////----------------------------- graph value
+              if(stocks[j]['name']=="  EPS (Basic)1"){  // graph value
+                graphArr[0]=stocks[j]['value']*1;
+              }else if(stocks[j]['name']=="  EPS (Basic)2"){  // graph value
+                graphArr[1]=stocks[j]['value']*1;
+              }else if(stocks[j]['name']=="  EPS (Basic)3"){  // graph value
+                graphArr[2]=stocks[j]['value']*1;
+              }else if(stocks[j]['name']=="  EPS (Basic)4"){  // graph value
+                graphArr[3]=stocks[j]['value']*1;
+              }else if(stocks[j]['name']=="  EPS (Basic)5"){  // graph value
+                graphArr[4]=stocks[j]['value']*1;
+              }
+              //console.log(graphArr);
+              ////////-------------------------------------------
             }
           }else{
             valueArr[i] = this.formulaArr[i];
@@ -287,18 +332,27 @@ export class BookmarkComponent implements OnInit {
         if(this.blist[i].ticker==ticker) {
           if(result!=null) {
             this.result[i]=result;  // save result of formula
+            this.dataeps[i]=(graphArr[0]-graphArr[4])/graphArr[0]*100; // get EPS persent change (2019-2015)/2019*100
+
+            let temp=recoArr[0]/recoArr[1];
+            if(temp>0) {
+              this.dataReco[i] = "Under ("+temp+")";
+            }else{
+              this.dataReco[i] = "Over ("+temp+")";
+            }
           } else {
             this.result[i]="Not available";
           }
-
-          if(stocks!=null) {  // for graph open value
-            let temp:string=stocks[0]['value'].toString().replace(",","");
-          }
+          ///------------------------------------graph
+          this.data2015[i]=graphArr[4];
+          this.data2016[i]=graphArr[3];
+          this.data2017[i]=graphArr[2];
+          this.data2018[i]=graphArr[1];
+          this.data2019[i]=graphArr[0];
+          ///-------------------------------------
         }
-
       }
-
-
+      //console.log(this.result);
     });
   }
 
